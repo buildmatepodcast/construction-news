@@ -3,481 +3,369 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Construction &amp; Design Intelligence | The CODE Podcast</title>
+<title>Construction & Design Intelligence | The CODE Podcast</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #1a1a1a; color: #e0e0e0; font-family: 'Georgia', serif; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #1a1a1a; color: #e0e0e0; font-family: 'Georgia', serif; min-height: 100vh; }
+  a { color: #b8962e; text-decoration: none; }
+  a:hover { text-decoration: underline; }
 
   /* MASTHEAD */
-  .masthead { background: #111; border-bottom: 3px solid #b8962e; padding: 28px 20px 18px; text-align: center; }
-  .masthead h1 { font-size: 2.1rem; font-weight: 700; color: #f5f0e8; letter-spacing: 1px; }
-  .masthead .tagline { font-size: 0.78rem; color: #b8962e; letter-spacing: 2px; text-transform: uppercase; margin-top: 6px; font-family: Arial, sans-serif; }
-  .meta-bar { background: #222; border-bottom: 1px solid #333; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-family: Arial, sans-serif; font-size: 0.73rem; color: #999; }
-  .meta-bar .story-count { background: #b8962e; color: #111; padding: 2px 10px; border-radius: 10px; font-weight: 700; }
-  .refresh-btn { background: #b8962e; color: #111; border: none; padding: 5px 14px; border-radius: 4px; font-size: 0.73rem; font-weight: 700; cursor: pointer; font-family: Arial, sans-serif; }
-  .refresh-btn:hover { background: #d4a93a; }
+  .masthead { background: #111; border-bottom: 3px solid #b8962e; padding: 28px 24px 20px; text-align: center; }
+  .masthead-eyebrow { font-family: Arial, sans-serif; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: #b8962e; margin-bottom: 8px; }
+  .masthead-title { font-size: 2.4rem; font-weight: 700; color: #fff; letter-spacing: -0.5px; line-height: 1.1; }
+  .masthead-tagline { font-family: Arial, sans-serif; font-size: 0.78rem; color: #888; margin-top: 8px; letter-spacing: 1px; }
+  .meta-bar { background: #1d1d1d; border-bottom: 1px solid #2e2e2e; padding: 8px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-family: Arial, sans-serif; font-size: 0.73rem; color: #777; }
+  .meta-bar .story-count { color: #b8962e; font-weight: 700; }
+  .refresh-btn { background: #b8962e; color: #111; border: none; padding: 5px 14px; border-radius: 3px; font-family: Arial, sans-serif; font-size: 0.72rem; font-weight: 700; cursor: pointer; letter-spacing: 0.5px; }
+  .refresh-btn:hover { background: #d4a832; }
 
   /* NAV TABS */
-  .nav-tabs { position: sticky; top: 0; z-index: 100; background: #111; border-bottom: 2px solid #b8962e; display: flex; overflow-x: auto; }
-  .nav-tab { padding: 12px 22px; font-family: Arial, sans-serif; font-size: 0.8rem; font-weight: 700; color: #999; cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+  .nav-tabs { display: flex; background: #111; border-bottom: 2px solid #2e2e2e; overflow-x: auto; position: sticky; top: 0; z-index: 100; }
+  .nav-tab { padding: 12px 20px; font-family: Arial, sans-serif; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; cursor: pointer; white-space: nowrap; color: #777; border-bottom: 3px solid transparent; transition: all 0.2s; }
   .nav-tab:hover { color: #b8962e; }
   .nav-tab.active { color: #b8962e; border-bottom-color: #b8962e; }
 
   /* SECTIONS */
-  .section { display: none; padding: 24px 16px; max-width: 900px; margin: 0 auto; }
+  .section { display: none; padding: 24px; max-width: 960px; margin: 0 auto; }
   .section.active { display: block; }
-  .section-header { font-size: 1.25rem; font-weight: 700; color: #b8962e; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid #333; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+  .section-header { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #2e2e2e; }
+  .section-label { font-family: Arial, sans-serif; font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: #b8962e; margin-bottom: 4px; }
+  .section-title { font-size: 1.4rem; color: #fff; }
 
   /* NEWS CARDS */
-  .news-card { background: #1e1e1e; border-left: 3px solid #b8962e; border-radius: 4px; padding: 18px 18px 14px; margin-bottom: 16px; }
+  .news-card { background: #1d1d1d; border-left: 4px solid #b8962e; border-radius: 0 4px 4px 0; margin-bottom: 16px; padding: 18px 20px; }
   .card-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
-  .source-badge { background: #333; color: #b8962e; font-family: Arial, sans-serif; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .card-date { font-family: Arial, sans-serif; font-size: 0.70rem; color: #777; }
-  .card-headline { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
-  .card-headline a { color: #f0e8d0; text-decoration: none; }
-  .card-headline a:hover { color: #b8962e; text-decoration: underline; }
-  .card-summary { font-size: 0.87rem; color: #bbb; line-height: 1.65; font-family: Arial, sans-serif; }
+  .source-badge { background: #2a2a2a; color: #b8962e; font-family: Arial, sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; }
+  .card-date { font-family: Arial, sans-serif; font-size: 0.68rem; color: #666; }
+  .card-headline { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 8px; line-height: 1.4; }
+  .card-headline a { color: #fff; }
+  .card-headline a:hover { color: #b8962e; }
+  .card-summary { font-size: 0.88rem; color: #aaa; line-height: 1.6; }
 
   /* ARCHIVE */
-  .archive-loading { color: #999; font-family: Arial, sans-serif; font-size: 0.85rem; padding: 20px 0; }
+  .archive-loading { font-family: Arial, sans-serif; font-size: 0.85rem; color: #777; text-align: center; padding: 40px; }
   .archive-list { list-style: none; }
-  .archive-list li { border-bottom: 1px solid #2a2a2a; padding: 12px 0; }
-  .archive-list li a { color: #b8962e; text-decoration: none; font-family: Arial, sans-serif; font-size: 0.88rem; }
-  .archive-list li a:hover { text-decoration: underline; }
-  .archive-list li .archive-date { color: #777; font-size: 0.75rem; font-family: Arial, sans-serif; margin-top: 3px; }
-  .no-archive { color: #666; font-family: Arial, sans-serif; font-size: 0.85rem; }
+  .archive-item { background: #1d1d1d; border-left: 4px solid #444; border-radius: 0 4px 4px 0; margin-bottom: 10px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .archive-item:hover { border-left-color: #b8962e; }
+  .archive-name { font-family: Arial, sans-serif; font-size: 0.85rem; color: #ccc; }
+  .archive-link { font-family: Arial, sans-serif; font-size: 0.75rem; font-weight: 700; color: #b8962e; white-space: nowrap; }
 
   /* FOOTER */
-  .footer { background: #111; border-top: 1px solid #333; padding: 20px; text-align: center; font-family: Arial, sans-serif; font-size: 0.72rem; color: #666; margin-top: 40px; }
-  .footer a { color: #b8962e; text-decoration: none; }
-  .credibility-note { background: #1e1e1e; border: 1px solid #333; border-radius: 4px; padding: 12px 16px; margin: 20px auto; max-width: 900px; font-family: Arial, sans-serif; font-size: 0.75rem; color: #888; line-height: 1.5; }
-  .credibility-note strong { color: #b8962e; }
+  .footer { background: #111; border-top: 1px solid #2e2e2e; padding: 20px 24px; margin-top: 40px; text-align: center; font-family: Arial, sans-serif; font-size: 0.72rem; color: #555; line-height: 1.7; }
+  .footer a { color: #777; }
+  .back-top { display: inline-block; margin-top: 12px; font-family: Arial, sans-serif; font-size: 0.72rem; font-weight: 700; color: #b8962e; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; }
+  .back-top:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .masthead-title { font-size: 1.6rem; }
+    .nav-tab { padding: 10px 14px; font-size: 0.7rem; }
+    .section { padding: 16px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- MASTHEAD -->
 <div class="masthead">
-  <h1>Construction &amp; Design Intelligence</h1>
-  <div class="tagline">India &amp; Global &nbsp;·&nbsp; Tier-1 Sources Only &nbsp;·&nbsp; Powered by The CODE Podcast</div>
+  <div class="masthead-eyebrow">The CODE Podcast Presents</div>
+  <div class="masthead-title">Construction &amp; Design Intelligence</div>
+  <div class="masthead-tagline">India &amp; Global &nbsp;&middot;&nbsp; Tier-1 Sources Only &nbsp;&middot;&nbsp; Powered by The CODE Podcast</div>
 </div>
 
-<!-- META BAR -->
 <div class="meta-bar">
-  <div>
-    <strong style="color:#e0e0e0;">Wednesday, 24 June 2026</strong>
-    &nbsp;&nbsp;|&nbsp;&nbsp;
-    Last updated: 24 Jun 2026 &nbsp;·&nbsp; Morning Edition IST
-  </div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <span class="story-count">20 Stories</span>
-    <button class="refresh-btn" onclick="sendPrompt('Refresh my construction news dashboard with the latest stories from credible sources and update the artifact')">&#8635; Refresh</button>
-  </div>
+  <span>&#128197; Thursday, 25 June 2026 &nbsp;&middot;&nbsp; Last updated: 25 Jun 2026 &middot; Morning IST</span>
+  <span class="story-count">20 stories across 4 categories</span>
+  <button class="refresh-btn" onclick="sendPrompt('Refresh my construction news dashboard with the latest stories from credible sources and update the artifact')">&#8635; Refresh</button>
 </div>
 
-<!-- NAV TABS -->
-<div class="nav-tabs">
-  <div class="nav-tab active" onclick="showSection('india', this)">&#127470;&#127475; India Construction</div>
-  <div class="nav-tab" onclick="showSection('global', this)">&#127758; Global Construction</div>
-  <div class="nav-tab" onclick="showSection('arch', this)">&#127963; Architecture &amp; Design</div>
-  <div class="nav-tab" onclick="showSection('tech', this)">&#9881; Construction Tech</div>
-  <div class="nav-tab" onclick="showSection('archive', this)">&#128193; Archive</div>
-</div>
+<nav class="nav-tabs">
+  <div class="nav-tab active" onclick="showTab('india', this)">&#127470;&#127475; India Construction</div>
+  <div class="nav-tab" onclick="showTab('global', this)">&#127758; Global Construction</div>
+  <div class="nav-tab" onclick="showTab('arch', this)">&#127963; Architecture &amp; Design</div>
+  <div class="nav-tab" onclick="showTab('tech', this)">&#9881;&#65039; Construction Tech</div>
+  <div class="nav-tab" onclick="showTab('archive', this)">&#128193; Archive</div>
+</nav>
 
 <!-- INDIA CONSTRUCTION -->
-<div class="section active" id="section-india">
-  <div class="section-header">India Construction</div>
+<div id="india" class="section active">
+  <div class="section-header">
+    <div class="section-label">India Construction</div>
+    <div class="section-title">Infrastructure &amp; Development News</div>
+  </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">constructionworld.in</span>
+      <span class="source-badge">Business Standard</span>
+      <span class="card-date">24 June 2026</span>
+    </div>
+    <div class="card-headline"><a href="https://www.business-standard.com/amp/economy/news/odisha-plans-50-000-crore-maritime-infra-push-with-port-shipbuilding-hub-126062401273_1.html" target="_blank" rel="noopener">Odisha Plans &#8377;50,000 Crore Maritime Infrastructure Push with New Port &amp; Shipbuilding Hub</a></div>
+    <div class="card-summary">Odisha is preparing for a massive maritime infrastructure expansion involving investments of around &#8377;50,000 crore, with plans to develop a new deepsea port and a shipbuilding cluster. The project aims to transform the state into a major maritime hub on India's eastern coast, significantly boosting coastal employment and trade capacity.</div>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Business Standard</span>
       <span class="card-date">19 June 2026</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.constructionworld.in/policy-updates-and-economic-news/raksha-mantri-to-perform-bhoomi-pujan-for-10000-ton-aluminium-press/93399" target="_blank">
-        Raksha Mantri Performs Bhoomi Pujan for 10,000-Ton Aluminium Press at Nagpur Defence Facility
-      </a>
-    </div>
-    <div class="card-summary">
-      Rajnath Singh performed the ground-breaking ceremony for a state-of-the-art 10,000-ton aluminium extrusion press at Yantra India Limited's Ordnance Factory, Ambajhari, Nagpur, on 19 June 2026. The facility marks a significant step in bolstering India's defence manufacturing infrastructure and self-reliance under the Atmanirbhar Bharat programme.
-    </div>
+    <div class="card-headline"><a href="https://www.business-standard.com/markets/capital-market-news/qadian-beas-rail-link-revived-project-to-improve-market-access-for-farmers-and-agricultural-produce-126061900474_1.html" target="_blank" rel="noopener">Qadian-Beas Rail Link Revived &#8212; 39.68 km Broad Gauge Corridor at &#8377;1,400 Crore</a></div>
+    <div class="card-summary">The Government of India has revived the long-pending Qadian-Beas New Railway Line Project, a 39.68 km broad-gauge corridor connecting Qadian in Gurdaspur district with Beas in Amritsar at an estimated cost of approximately &#8377;1,400 crore. The rail link will improve market access for farmers and agricultural produce from the Punjab region.</div>
   </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">constructionworld.in</span>
-      <span class="card-date">June 2026</span>
+      <span class="source-badge">Construction World</span>
+      <span class="card-date">15 June 2026</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.constructionworld.in/transport-infrastructure/metro-rail-and-railways-infrastructure/seven-high-speed-rail-corridors-planned-in-budget-2026/90427" target="_blank">
-        Budget 2026&#8211;27 Announces Seven New High-Speed Rail Corridors Across India
-      </a>
-    </div>
-    <div class="card-summary">
-      The Union Budget 2026&#8211;27 unveiled plans for seven high-speed rail corridors including Mumbai&#8211;Pune, Pune&#8211;Hyderabad, Hyderabad&#8211;Bengaluru, Hyderabad&#8211;Chennai, Chennai&#8211;Bengaluru, Delhi&#8211;Varanasi and Varanasi&#8211;Siliguri. This follows the ongoing construction of the 508 km Mumbai&#8211;Ahmedabad High-Speed Rail Corridor, designed for speeds up to 320 km/h.
-    </div>
+    <div class="card-headline"><a href="https://www.constructionworld.in/steel-news/steel-exchange-india-secures-apcrda-approval-for-simhadri-tmt/93383" target="_blank" rel="noopener">Steel Exchange India Secures APCRDA Approval for SIMHADRI TMT in Amaravati Capital City Development</a></div>
+    <div class="card-summary">Steel Exchange India Limited received formal approval from the Andhra Pradesh Capital Region Development Authority for SIMHADRI TMT products in the Amaravati Capital City development programme, dated June 15, 2026. The approval enables the company to supply high-grade steel for one of India's most ambitious ongoing capital city construction projects.</div>
   </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">constructionworld.in</span>
+      <span class="source-badge">Construction World</span>
       <span class="card-date">June 2026</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.constructionworld.in/transport-infrastructure/metro-rail-and-railways-infrastructure/mmrda-plans-seven-fobs-to-boost-metro-line-nine-access/93073" target="_blank">
-        MMRDA Awards Rs 820.9 Million Contract for Seven Foot Over Bridges on Mumbai Metro Line 9
-      </a>
-    </div>
-    <div class="card-summary">
-      MMRDA appointed Speco Infrastructure JV and PRS Infraprojects LLP to construct seven foot over bridges (FOBs) along Metro Line 9, following Phase 1's opening on 7 April 2026. The pedestrian works are scheduled for completion before the corridor moves to full operations, improving last-mile connectivity for commuters across Mumbai.
-    </div>
+    <div class="card-headline"><a href="https://www.constructionworld.in/steel-news/sepc-secures-major-order-from-sail-for-steel-expansion/93384" target="_blank" rel="noopener">SEPC Secures &#8377;6,733 Million Order from SAIL for 4.08 MTPA Steel Expansion at Burnpur</a></div>
+    <div class="card-summary">SEPC Limited has won a major contract from Steel Authority of India's IISCO Steel Plant at Burnpur for a 4.08 million tonnes per annum crude steel expansion project valued at &#8377;6,733.2 million net of taxes. The order marks one of the significant industrial construction contracts in India's steel sector this quarter.</div>
   </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">constructionworld.in</span>
+      <span class="source-badge">Construction World</span>
       <span class="card-date">June 2026</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.constructionworld.in/transport-infrastructure/highways-and-roads-infrastructure/ceigall-india-wins-nhai-highway-contract-in-bihar/86264" target="_blank">
-        Ceigall India Wins Rs 21,600 Million NHAI Highway Contract in Bihar
-      </a>
-    </div>
-    <div class="card-summary">
-      Ceigall Infra Projects secured a major order from NHAI for constructing a four-lane highway on NH-139W in Bihar, covering the Sahebganj&#8211;Areraj&#8211;Bettiah corridor across 78.942 km. The contract is part of NHAI's accelerated programme to improve highway connectivity in Bihar ahead of planned industrial and logistics growth in the region.
-    </div>
-  </div>
-
-  <div class="news-card">
-    <div class="card-meta">
-      <span class="source-badge">constructionworld.in</span>
-      <span class="card-date">June 2026</span>
-    </div>
-    <div class="card-headline">
-      <a href="https://www.constructionworld.in/transport-infrastructure/metro-rail-and-railways-infrastructure/bmrcl-expands-feasibility-study-for-197-km-network-extension/70574" target="_blank">
-        BMRCL Expands Feasibility Study for 197 Km Bengaluru Metro Network Extension
-      </a>
-    </div>
-    <div class="card-summary">
-      The Bangalore Metro Rail Corporation Limited (BMRCL) has expanded its feasibility study to cover a potential 197 km extension of the metro network, signalling ambitious long-term plans for urban mobility in India's tech capital. The study aligns with the government's broader push for integrated urban transit as India's infrastructure budget rises to &#8377;12.2 lakh crore in 2026&#8211;27.
-    </div>
+    <div class="card-headline"><a href="https://www.constructionworld.in/urban-infrastructure/wastewater-and-sewage-treatment/delhi-sets-june-deadline-for-rainwater-harvesting-systems/93373" target="_blank" rel="noopener">Delhi LG Sets June 30 Deadline for Rainwater Harvesting System Readiness Across MCD, DDA &amp; NDMC</a></div>
+    <div class="card-summary">Delhi's Lieutenant Governor has set June 30 as the hard deadline for the Municipal Corporation of Delhi, Delhi Development Authority, and New Delhi Municipal Council to complete desilting, repairs, and maintenance of all rainwater harvesting systems. The mandate ensures urban water infrastructure is fully operational before the monsoon season arrives in the capital.</div>
   </div>
 </div>
 
 <!-- GLOBAL CONSTRUCTION -->
-<div class="section" id="section-global">
-  <div class="section-header">Global Construction</div>
-
-  <div class="news-card">
-    <div class="card-meta">
-      <span class="source-badge">enr.com</span>
-      <span class="card-date">22 June 2026</span>
-    </div>
-    <div class="card-headline">
-      <a href="https://www.enr.com/articles/63213-nist-report-details-how-design-construction-flaws-led-to-surfside-condo-collapse" target="_blank">
-        NIST Report Details How Design and Construction Flaws Led to Surfside Condo Collapse
-      </a>
-    </div>
-    <div class="card-summary">
-      The National Institute of Standards and Technology released its long-awaited technical findings on 22 June 2026, concluding that design deficiencies, construction deviations, added loads and long-term corrosion collectively reduced Champlain Towers South's capacity to resist failure, killing 98 people. NIST determined the collapse sequence began weeks before the building fell when two slab-column connections beneath the pool deck experienced punching-shear failures, initiating a progressive collapse of the 12-story reinforced-concrete tower.
-    </div>
+<div id="global" class="section">
+  <div class="section-header">
+    <div class="section-label">Global Construction</div>
+    <div class="section-title">International Industry News</div>
   </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">globalconstructionreview.com</span>
-      <span class="card-date">2026</span>
+      <span class="source-badge">Global Construction Review</span>
+      <span class="card-date">2026 Outlook</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.globalconstructionreview.com/2026-global-cost-outlook-harder-conditions-than-weve-seen-for-some-time/" target="_blank">
-        2026 Global Cost Outlook: 'Harder Conditions Than We've Seen for Some Time'
-      </a>
-    </div>
-    <div class="card-summary">
-      A new global cost outlook report warns contractors face a double squeeze of rising materials prices and slower bid-price growth, with cost escalation projections ranging from 0&#8211;1% in Hong Kong to 3.6% in the UK and 12% in Japan. Global construction volume is forecast to grow 1.2% this year and average 3% annually through the rest of the decade, but tightening margins demand sharper risk management.
-    </div>
+    <div class="card-headline"><a href="https://www.globalconstructionreview.com/2026-global-cost-outlook-harder-conditions-than-weve-seen-for-some-time/" target="_blank" rel="noopener">2026 Global Cost Outlook: 'Harder Conditions Than We've Seen for Some Time'</a></div>
+    <div class="card-summary">Global construction volume is forecast to grow 1.2% in 2026 with a 3% average annual growth projected for the rest of the decade, but costs will keep rising amid labor shortages and material price volatility. Cost escalation projections range from 0&#8211;1% in Hong Kong to 12% in Japan, with Australia facing 5&#8211;8% increases driven by high-demand data center and infrastructure sectors.</div>
   </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">constructiondive.com</span>
-      <span class="card-date">2026</span>
+      <span class="source-badge">Engineering News-Record</span>
+      <span class="card-date">June 2026</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.constructiondive.com/news/5-construction-trends-2026/808904/" target="_blank">
-        5 Construction Trends to Watch in 2026: Data Centres, Labour, and AI Top the List
-      </a>
-    </div>
-    <div class="card-summary">
-      Construction Dive's 2026 trends report highlights surging data-centre construction as tech giants commit billions to expand their footprints, alongside persistent labour shortages, AI adoption, rising material costs, and growing insurance pressures. Industry analysts caution that while demand pipelines remain strong, contractors must navigate real risks including tariff volatility and supply-chain disruptions to maintain profitability.
-    </div>
+    <div class="card-headline"><a href="https://www.enr.com/articles/63208-1b-2b-toronto-hospital-tower-moves-ahead-in-procurement" target="_blank" rel="noopener">$1B&#8211;$2B Toronto Hospital Tower Moves Ahead in Procurement Phase</a></div>
+    <div class="card-summary">A major hospital tower project in Toronto valued between $1 billion and $2 billion is advancing through the procurement phase, representing one of Canada's most significant healthcare infrastructure investments of the decade. The project underscores continued strong demand for public sector construction across North American urban markets despite broader economic uncertainty.</div>
   </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">enr.com</span>
+      <span class="source-badge">Engineering News-Record</span>
       <span class="card-date">2026</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.enr.com/articles/62828-nemetschek-to-buy-hcss-for-24b-expanding-reach-into-heavy-civil-contractor-software" target="_blank">
-        Nemetschek to Acquire HCSS for $2.4 Billion, Expanding into Heavy Civil Contractor Software
-      </a>
-    </div>
-    <div class="card-summary">
-      German AEC software giant Nemetschek announced a $2.4 billion acquisition of HCSS, a Houston-based provider of heavy civil contractor software used by over 3,000 companies across North America. The deal represents one of the largest consolidations in construction technology, giving Nemetschek a commanding presence across design, build, and infrastructure project management.
-    </div>
+    <div class="card-headline"><a href="https://www.enr.com/articles/62169-abc-construction-industry-to-face-real-risks-in-2026" target="_blank" rel="noopener">ABC Warns: Construction Industry to Face 'Real Risks' in 2026 — Labor, Supply Chain &amp; Cost Pressures</a></div>
+    <div class="card-summary">Associated Builders and Contractors has warned that the construction industry faces real risks in 2026, including labor constraints, supply chain disruptions, and mounting cost escalation pressures. Despite strong demand from data centers and public infrastructure, firms must navigate heightened uncertainty in procurement, financing, and workforce availability.</div>
   </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">enr.com</span>
+      <span class="source-badge">Construction Dive</span>
       <span class="card-date">2026</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.enr.com/articles/62279-4q-cost-report-construction-in-2026-managing-risk-building-momentum" target="_blank">
-        Construction in 2026: Managing Risk, Building Momentum &#8212; ENR Cost Report
-      </a>
+    <div class="card-headline"><a href="https://www.constructiondive.com/news/5-construction-trends-2026/808904/" target="_blank" rel="noopener">5 Construction Trends to Watch in 2026: Digital Delivery, Modular Build &amp; Data Center Boom</a></div>
+    <div class="card-summary">Construction Dive identifies five key trends reshaping the industry in 2026: digital-first project delivery, accelerating modular and prefabricated construction, a sustained data center construction boom, resilient public infrastructure investment, and evolving labor models. These forces are fundamentally changing how firms plan, procure, and execute projects globally.</div>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Engineering News-Record</span>
+      <span class="card-date">2026</span>
     </div>
-    <div class="card-summary">
-      ENR's quarterly cost report finds the construction industry entering 2026 with strong order books but significant headwinds from tariff uncertainty, materials price volatility and ongoing skilled-labour deficits. Contractors that have invested in digital tools and pre-fabrication strategies are outperforming peers on schedule and cost predictability, the report concludes.
-    </div>
+    <div class="card-headline"><a href="https://www.enr.com/articles/62279-4q-cost-report-construction-in-2026-managing-risk-building-momentum" target="_blank" rel="noopener">4Q Cost Report: Construction in 2026 &#8212; Managing Risk, Building Momentum</a></div>
+    <div class="card-summary">ENR's Q4 cost report reveals that 2026's construction challenge is not cost itself but the uncertainty beneath it, with procurement strategies shifting toward simpler models and faster decision-making frameworks. Tech giants' multi-billion dollar data center pledges and sustained public infrastructure investment are keeping industry momentum alive despite tightening margins.</div>
   </div>
 </div>
 
 <!-- ARCHITECTURE & DESIGN -->
-<div class="section" id="section-arch">
-  <div class="section-header">Architecture &amp; Design</div>
-
-  <div class="news-card">
-    <div class="card-meta">
-      <span class="source-badge">archdaily.com</span>
-      <span class="card-date">June 2026</span>
-    </div>
-    <div class="card-headline">
-      <a href="https://www.archdaily.com/1038873/meet-the-15-winning-projects-of-the-2026-archdaily-building-of-the-year-awards" target="_blank">
-        Meet the 15 Winning Projects of the 2026 ArchDaily Building of the Year Awards
-      </a>
-    </div>
-    <div class="card-summary">
-      In its 17th edition, the ArchDaily Building of the Year Awards drew more than 120,000 votes from over 100 countries, with 15 winners representing 14 nations including Brazil, India, Ethiopia, Germany, Japan, and Vietnam. The winning works reflect a global shift toward human-scaled, socially attuned architecture defined by material intelligence and clarity of intention.
-    </div>
+<div id="arch" class="section">
+  <div class="section-header">
+    <div class="section-label">Architecture &amp; Design</div>
+    <div class="section-title">Projects, Awards &amp; Events</div>
   </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">archdaily.com</span>
-      <span class="card-date">June 2026</span>
+      <span class="source-badge">Dezeen</span>
+      <span class="card-date">24 June 2026</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.archdaily.com/1040037/reversible-cultural-pavilion-activates-public-space-in-frankfurt-2026" target="_blank">
-        Reversible Cultural Pavilion Activates Public Space in Frankfurt 2026
-      </a>
-    </div>
-    <div class="card-summary">
-      A new reversible cultural pavilion designed for adaptability and minimal environmental footprint has been unveiled in Frankfurt, transforming an underused public square into a vibrant community hub. The structure demonstrates growing demand for impermanent, demountable architecture as cities seek flexible cultural infrastructure without long-term land commitments.
-    </div>
+    <div class="card-headline"><a href="https://www.dezeen.com/2026/06/24/vitrocsa-new-headquarters-switzerland-architecture/" target="_blank" rel="noopener">Vitrocsa's New Switzerland Headquarters Embodies "Precision, Innovation and Transparency"</a></div>
+    <div class="card-summary">Swiss precision glazing brand Vitrocsa has completed its new headquarters at Y-Parc in Yverdon-les-Bains &#8212; Switzerland's first and largest technology park &#8212; after 18 months of construction. The building is designed to embody the brand's core values and serves as a living showcase of its ultra-slim window systems.</div>
   </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">archdaily.com</span>
-      <span class="card-date">January 2026</span>
-    </div>
-    <div class="card-headline">
-      <a href="https://www.archdaily.com/1036741/the-20-most-anticipated-projects-of-2026" target="_blank">
-        The 20 Most Anticipated Architecture Projects of 2026
-      </a>
-    </div>
-    <div class="card-summary">
-      ArchDaily's editors selected 20 globally anticipated projects completing or breaking ground in 2026, spanning cultural institutions, civic spaces and housing across six continents. The list underscores architecture's continued relevance as a public discipline, with standout projects tackling climate resilience, social equity and urban regeneration.
-    </div>
-  </div>
-
-  <div class="news-card">
-    <div class="card-meta">
-      <span class="source-badge">wallpaper.com</span>
-      <span class="card-date">June 2026</span>
-    </div>
-    <div class="card-headline">
-      <a href="https://www.wallpaper.com/architecture/rana-begum-webb-yates-installation-lfa-2026-uk" target="_blank">
-        Rana Begum and Webb Yates Engineers Unveil Installation for London Festival of Architecture 2026
-      </a>
-    </div>
-    <div class="card-summary">
-      Artist Rana Begum and structural engineering practice Webb Yates Engineers collaborated on a striking new installation for the London Festival of Architecture 2026, exploring the intersection of colour, structure and spatial experience. The LFA 2026 returned under the theme "Belonging," activating 11 London neighbourhoods throughout June with events examining how architecture shapes identity and community.
-    </div>
-  </div>
-
-  <div class="news-card">
-    <div class="card-meta">
-      <span class="source-badge">dezeen.com</span>
+      <span class="source-badge">Dezeen</span>
       <span class="card-date">1 June 2026</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.dezeen.com/2026/06/01/eight-architecture-design-events-june-dezeen-events-guide-2026/" target="_blank">
-        Eight Architecture and Design Events to Attend in June 2026 &#8212; Dezeen Events Guide
-      </a>
+    <div class="card-headline"><a href="https://www.dezeen.com/2026/06/01/eight-architecture-design-events-june-dezeen-events-guide-2026/" target="_blank" rel="noopener">Eight Architecture &amp; Design Events in June 2026: UIA World Congress, London Festival &amp; More</a></div>
+    <div class="card-summary">Dezeen's June 2026 Events Guide highlights eight essential architecture and design events, anchored by the UIA World Congress of Architects in Barcelona on June 29 and the month-long London Festival of Architecture under the theme "Belonging." San Francisco Design Week also marks its 20th anniversary edition under the theme Multitudes.</div>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">ArchDaily</span>
+      <span class="card-date">2026</span>
     </div>
-    <div class="card-summary">
-      Dezeen's June 2026 events guide highlights eight must-attend gatherings including the Fiskars Village Art and Design Biennale in Finland, San Francisco Design Week's 20th anniversary, NeoCon in Chicago, and the UIA World Congress of Architects in Barcelona. The month marks one of the busiest periods on the global design calendar, with thousands of architects and designers convening across North America and Europe.
+    <div class="card-headline"><a href="https://www.archdaily.com/1038873/meet-the-15-winning-projects-of-the-2026-archdaily-building-of-the-year-awards" target="_blank" rel="noopener">Meet the 15 Winning Projects of the 2026 ArchDaily Building of the Year Awards</a></div>
+    <div class="card-summary">ArchDaily has announced 15 winning projects in its prestigious 2026 Building of the Year Awards, celebrating architectural excellence across multiple categories and typologies globally. The awards spotlight innovation in sustainable design, public space activation, adaptive reuse, and community-focused architecture.</div>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">ArchDaily</span>
+      <span class="card-date">2026</span>
     </div>
+    <div class="card-headline"><a href="https://www.archdaily.com/1040037/reversible-cultural-pavilion-activates-public-space-in-frankfurt-2026" target="_blank" rel="noopener">Reversible Cultural Pavilion Activates Public Space in Frankfurt &#8212; Circular Design Goes Mainstream</a></div>
+    <div class="card-summary">A purpose-designed reversible cultural pavilion is activating public space in Frankfurt in 2026, built to be fully dismantled and its materials reused after the programme concludes. The project exemplifies how circular design principles and temporary architecture are becoming mainstream tools for urban space activation in European cities.</div>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">ArchDaily</span>
+      <span class="card-date">2026</span>
+    </div>
+    <div class="card-headline"><a href="https://www.archdaily.com/1036741/the-20-most-anticipated-projects-of-2026" target="_blank" rel="noopener">The 20 Most Anticipated Architectural Projects of 2026</a></div>
+    <div class="card-summary">ArchDaily presents its curated list of the 20 most anticipated architectural projects set to complete or break ground in 2026, spanning cultural, civic, and residential typologies across Asia, Europe, and the Americas. The list reflects a global architecture community increasingly focused on civic purpose, material innovation, and climate resilience.</div>
   </div>
 </div>
 
 <!-- CONSTRUCTION TECH -->
-<div class="section" id="section-tech">
-  <div class="section-header">Construction Tech</div>
-
-  <div class="news-card">
-    <div class="card-meta">
-      <span class="source-badge">enr.com</span>
-      <span class="card-date">17 June 2026</span>
-    </div>
-    <div class="card-headline">
-      <a href="https://www.enr.com/articles/63178-trunk-tools-launches-cortex-ai-platform-to-interpret-construction-drawings" target="_blank">
-        Trunk Tools Launches Cortex AI Platform to Interpret Construction Drawings
-      </a>
-    </div>
-    <div class="card-summary">
-      New York-based Trunk Tools unveiled Cortex on 17 June 2026, an AI intelligence layer trained to interpret construction drawings and connect them with specifications, RFIs, submittals, schedules and change orders, with contractors already reporting early workflow gains. The platform also automates submittal analysis, flagging discrepancies against specification requirements and providing actionable recommendations to keep projects on track.
-    </div>
+<div id="tech" class="section">
+  <div class="section-header">
+    <div class="section-label">Construction Technology</div>
+    <div class="section-title">AI, BIM &amp; Digital Innovation</div>
   </div>
 
   <div class="news-card">
     <div class="card-meta">
-      <span class="source-badge">enr.com</span>
+      <span class="source-badge">Autodesk</span>
+      <span class="card-date">2026</span>
+    </div>
+    <div class="card-headline"><a href="https://adsknews.autodesk.com/en/news/autodesk-design-and-make-intelligence/" target="_blank" rel="noopener">Autodesk Launches Forma Building Design &amp; Deeper Cloud Connections with Revit</a></div>
+    <div class="card-summary">Autodesk has launched Forma Building Design with deeper cloud connectivity to Revit, enabling continuous data flow across planning, design, and construction phases for the first time. The shift moves AEC workflows from fragmented file-based processes to cloud-connected project data across the full building lifecycle, reducing rework at each delivery stage.</div>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Autodesk</span>
+      <span class="card-date">2026</span>
+    </div>
+    <div class="card-headline"><a href="https://www.autodesk.com/blogs/construction/2026-ai-trends-25-experts-share-insights/" target="_blank" rel="noopener">2026 AI Construction Trends: 25+ Experts on What's Actually Changing on the Ground</a></div>
+    <div class="card-summary">Autodesk's survey of 25+ construction AI experts reveals that generic chat-based AI tools are being replaced by purpose-built AI agents that autonomously audit documents, review plans, and prepare project information packages. AI-driven predictive safety using 4D BIM data analysis is also accelerating, with systems now identifying process conflicts and worker exposure risks before construction even begins.</div>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Engineering News-Record</span>
+      <span class="card-date">2026</span>
+    </div>
+    <div class="card-headline"><a href="https://www.enr.com/articles/62515-ceo-why-visual-intelligence-is-the-next-big-shift-in-construction-technology" target="_blank" rel="noopener">Visual Intelligence: Why Spatial AI Is the Next Big Shift in Construction Technology</a></div>
+    <div class="card-summary">Visual intelligence &#8212; powered by spatial AI trained on physical context, location, sequence, and relationships between building elements &#8212; is emerging as construction technology's next major frontier. These systems can now recognize materials, associate site photographs with 3D BIM models and floor plans, and automatically track construction progress over time.</div>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction Dive</span>
+      <span class="card-date">2026</span>
+    </div>
+    <div class="card-headline"><a href="https://www.constructiondive.com/news/artificial-inteligence-digital-twins-bim-mccarthy-construction/732463/" target="_blank" rel="noopener">AI, Digital Twins and BIM to Converge into Unified Project Intelligence &#8212; McCarthy Tech Lead</a></div>
+    <div class="card-summary">McCarthy Construction's technology expert predicts AI, digital twins, and BIM will converge into unified project intelligence platforms, linking real-time schedule, cost, and field progress data directly to BIM models. This convergence marks the transition to true digital-first project delivery, where the digital model actively drives every construction decision.</div>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Engineering News-Record</span>
       <span class="card-date">June 2026</span>
     </div>
-    <div class="card-headline">
-      <a href="https://www.enr.com/articles/63085-bluebeam-releases-max-capabilities-expands-revu" target="_blank">
-        Bluebeam Releases Max Capabilities Powered by Firmus AI and Claude, Expands Revu Platform
-      </a>
-    </div>
-    <div class="card-summary">
-      Bluebeam made its Max AI capabilities available to all Revu customers in May 2026, integrating Firmus AI and Anthropic's Claude to enable AI-powered markup, automated drawing analysis and BIM-connected PDF workflows. A new class of "Magic Markups" automates repetitive takeoff tasks, reducing manual clicks and improving accuracy across quantity estimation workflows.
-    </div>
-  </div>
-
-  <div class="news-card">
-    <div class="card-meta">
-      <span class="source-badge">enr.com</span>
-      <span class="card-date">2026</span>
-    </div>
-    <div class="card-headline">
-      <a href="https://www.enr.com/articles/62387-procore-acquires-construction-agentic-ai-platform-datagrid" target="_blank">
-        Procore Acquires Datagrid, an Agentic AI Platform Built for Construction
-      </a>
-    </div>
-    <div class="card-summary">
-      Procore Technologies acquired Datagrid, a construction-focused agentic AI platform that enables autonomous agents to manage documents, extract data and take action across project workflows without constant human input. The acquisition signals Procore's ambition to move beyond project management software into AI-native construction operations at scale.
-    </div>
-  </div>
-
-  <div class="news-card">
-    <div class="card-meta">
-      <span class="source-badge">autodesk.com</span>
-      <span class="card-date">2026</span>
-    </div>
-    <div class="card-headline">
-      <a href="https://adsknews.autodesk.com/en/news/autodesk-design-and-make-intelligence/" target="_blank">
-        Autodesk Launches Design &amp; Make Intelligence: Continuous Data Across Planning, Design and Build
-      </a>
-    </div>
-    <div class="card-summary">
-      Autodesk introduced its Design and Make Intelligence vision, enabling continuous data flow across planning, design and construction phases so teams build on prior work rather than reworking it at each stage. The platform connects existing tools via cloud-connected project data across the lifecycle, with Forma Building Design and deeper Revit cloud connections forming the core of the new offering.
-    </div>
-  </div>
-
-  <div class="news-card">
-    <div class="card-meta">
-      <span class="source-badge">enr.com</span>
-      <span class="card-date">2026</span>
-    </div>
-    <div class="card-headline">
-      <a href="https://www.enr.com/articles/62515-ceo-why-visual-intelligence-is-the-next-big-shift-in-construction-technology" target="_blank">
-        Visual Intelligence Is the Next Big Shift in Construction Technology, Says Industry CEO
-      </a>
-    </div>
-    <div class="card-summary">
-      Spatial AI trained on physical context can recognise materials, associate photos with 3D BIM models and floor plans, and track construction progress over time with unprecedented accuracy. Industry leaders predict visual intelligence will converge with digital twins and BIM to create a real-time, AI-augmented view of every project site, fundamentally changing how superintendents and project managers make decisions.
-    </div>
+    <div class="card-headline"><a href="https://www.enr.com/articles/63085-bluebeam-releases-max-capabilities-expands-revu" target="_blank" rel="noopener">Bluebeam Releases Max AI Capabilities and Expands Revu Platform for Construction Teams</a></div>
+    <div class="card-summary">Bluebeam has released its Max AI capabilities integrated into the expanded Revu platform, bringing AI-powered markup, document review, and workflow automation tools to construction teams. The release signals growing mainstream adoption of AI-assisted document management across architecture, engineering, and construction firms globally.</div>
   </div>
 </div>
 
 <!-- ARCHIVE -->
-<div class="section" id="section-archive">
-  <div class="section-header">Archive</div>
-  <p style="font-family:Arial,sans-serif;font-size:0.83rem;color:#999;margin-bottom:18px;">
-    Past editions are stored on GitHub. Loading archive index&#8230;
-  </p>
-  <div id="archive-content" class="archive-loading">Fetching archive from GitHub&#8230;</div>
+<div id="archive" class="section">
+  <div class="section-header">
+    <div class="section-label">Past Editions</div>
+    <div class="section-title">Morning &amp; Evening Archive</div>
+  </div>
+  <div id="archive-content" class="archive-loading">Loading archive from GitHub...</div>
 </div>
 
-<!-- CREDIBILITY NOTE -->
-<div class="credibility-note">
-  <strong>Credibility Policy:</strong> This dashboard sources news exclusively from verified Tier-1 outlets &#8212;
-  constructionworld.in, business-standard.com, infrastructuretoday.co.in, pib.gov.in (India) &#183;
-  enr.com, globalconstructionreview.com, constructiondive.com, bdcnetwork.com (Global) &#183;
-  archdaily.com, dezeen.com, architectural-review.com, wallpaper.com (Architecture) &#183;
-  enr.com, autodesk.com, procore.com, constructiondive.com (Tech). No fabricated content.
-</div>
-
-<!-- FOOTER -->
 <div class="footer">
-  <p>Construction &amp; Design Intelligence &nbsp;&#183;&nbsp; Powered by <a href="https://www.youtube.com/@BuildmatePodcast" target="_blank">The CODE Podcast</a> &nbsp;&#183;&nbsp; India's #1 Construction Podcast</p>
-  <p style="margin-top:6px;"><a href="https://buildmatepodcast.github.io/construction-news" target="_blank">View on GitHub Pages &#8594;</a></p>
-  <p style="margin-top:6px;">&#169; 2026 Rishabh Aggarwal &#183; buildmatepodcast@gmail.com</p>
+  <strong style="color:#b8962e;">Credibility Policy:</strong> This newsletter sources exclusively from verified Tier-1 outlets &#8212;
+  constructionworld.in, business-standard.com, pib.gov.in, enr.com, globalconstructionreview.com, constructiondive.com,
+  bdcnetwork.com, archdaily.com, dezeen.com, architectural-review.com, autodesk.com, and procore.com.
+  No fabricated content. No anonymous blogs. No press release mills.<br><br>
+  Powered by <strong style="color:#b8962e;">The CODE Podcast</strong> &#8212; India's #1 Construction Podcast &nbsp;&middot;&nbsp;
+  <a href="https://buildmatepodcast.github.io/construction-news" target="_blank" rel="noopener">Live Site</a>
+  <br>
+  <span class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to Top</span>
 </div>
 
 <script>
-  function showSection(id, el) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('section-' + id).classList.add('active');
-    el.classList.add('active');
-    if (id === 'archive') loadArchive();
-  }
+function showTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  if (id === 'archive') loadArchive();
+}
 
-  function loadArchive() {
-    const container = document.getElementById('archive-content');
-    fetch('https://api.github.com/repos/buildmatepodcast/construction-news/contents/archive')
-      .then(r => r.json())
-      .then(files => {
-        if (!Array.isArray(files) || files.length === 0) {
-          container.innerHTML = '<p class="no-archive">No archive editions found yet. Check back after the first scheduled run publishes to GitHub.</p>';
-          return;
-        }
-        const sorted = files
-          .filter(f => f.name.endsWith('.html'))
-          .sort((a, b) => b.name.localeCompare(a.name));
-        if (sorted.length === 0) {
-          container.innerHTML = '<p class="no-archive">No archive HTML files found yet.</p>';
-          return;
-        }
-        const ul = document.createElement('ul');
-        ul.className = 'archive-list';
-        sorted.forEach(f => {
-          const li = document.createElement('li');
-          const label = f.name
-            .replace('.html', '')
-            .replace('-morning', ' · Morning Edition')
-            .replace('-evening', ' · Evening Edition');
-          li.innerHTML = '<a href="https://buildmatepodcast.github.io/construction-news/archive/' + f.name + '" target="_blank">📄 ' + label + '</a><div class="archive-date">' + f.name + '</div>';
-          ul.appendChild(li);
-        });
-        container.innerHTML = '';
-        container.appendChild(ul);
-      })
-      .catch(() => {
-        container.innerHTML = '<p class="no-archive">Could not load archive. The GitHub repository may not be set up yet. <a href="https://github.com/buildmatepodcast/construction-news/tree/main/archive" target="_blank" style="color:#b8962e;">Browse on GitHub →</a></p>';
+function loadArchive() {
+  var container = document.getElementById('archive-content');
+  container.innerHTML = '<div class="archive-loading">Fetching archive from GitHub...</div>';
+  fetch('https://api.github.com/repos/buildmatepodcast/construction-news/contents/archive')
+    .then(function(r) { return r.json(); })
+    .then(function(files) {
+      if (!Array.isArray(files) || files.length === 0) {
+        container.innerHTML = '<div class="archive-loading">No archive editions found yet. Editions will appear here after the first automated run.</div>';
+        return;
+      }
+      var sorted = files.filter(function(f) { return f.name.endsWith('.html'); }).sort(function(a,b) { return b.name.localeCompare(a.name); });
+      if (sorted.length === 0) {
+        container.innerHTML = '<div class="archive-loading">No archived editions found yet.</div>';
+        return;
+      }
+      var list = document.createElement('ul');
+      list.className = 'archive-list';
+      sorted.forEach(function(f) {
+        var li = document.createElement('li');
+        li.className = 'archive-item';
+        var label = f.name.replace('.html','').replace(/-/g,' ').replace(/morning/i,'&#9728;&#65039; Morning').replace(/evening/i,'&#127769; Evening');
+        li.innerHTML = '<span class="archive-name">' + label + '</span><a class="archive-link" href="https://buildmatepodcast.github.io/construction-news/archive/' + f.name + '" target="_blank" rel="noopener">Read Edition &rarr;</a>';
+        list.appendChild(li);
       });
-  }
+      container.innerHTML = '';
+      container.appendChild(list);
+    })
+    .catch(function() {
+      container.innerHTML = '<div class="archive-loading">Could not load archive. <a href="https://github.com/buildmatepodcast/construction-news/tree/main/archive" target="_blank" rel="noopener">View on GitHub &rarr;</a></div>';
+    });
+}
 
-  function sendPrompt(text) {
-    if (window.parent && window.parent.postMessage) {
-      window.parent.postMessage({ type: 'sendPrompt', text }, '*');
-    }
+function sendPrompt(text) {
+  if (window.cowork && window.cowork.sendPrompt) {
+    window.cowork.sendPrompt(text);
+  } else {
+    alert('Refresh prompt: ' + text);
   }
+}
 </script>
 </body>
 </html>
