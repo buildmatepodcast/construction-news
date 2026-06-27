@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construction &amp; Design Intelligence | The CODE Podcast</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; color: #e0e0e0; font-family: 'Georgia', serif; min-height: 100vh; }
+
+  /* MASTHEAD */
+  .masthead {
+    background: #111;
+    border-bottom: 3px solid #b8962e;
+    padding: 28px 20px 20px;
+    text-align: center;
+  }
+  .masthead h1 {
+    font-size: 2.4rem;
+    color: #b8962e;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .masthead .tagline {
+    color: #888;
+    font-size: 0.82rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .meta-bar {
+    background: #0d0d0d;
+    border-bottom: 1px solid #2a2a2a;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: #777;
+    font-family: Arial, sans-serif;
+  }
+  .meta-bar .story-count { color: #b8962e; font-weight: 700; }
+  .refresh-btn {
+    background: #b8962e;
+    color: #111;
+    border: none;
+    padding: 5px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .refresh-btn:hover { background: #d4a835; }
+
+  /* NAV TABS */
+  .nav-tabs {
+    background: #111;
+    border-bottom: 2px solid #222;
+    display: flex;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-tab {
+    padding: 13px 20px;
+    color: #888;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .nav-tab:hover { color: #b8962e; }
+  .nav-tab.active { color: #b8962e; border-bottom-color: #b8962e; }
+
+  /* CONTENT */
+  .content { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    border-bottom: 2px solid #b8962e;
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+  }
+  .section-header h2 {
+    color: #b8962e;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: Arial, sans-serif;
+  }
+  .section-header p {
+    color: #666;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    font-family: Arial, sans-serif;
+  }
+
+  /* NEWS CARDS */
+  .news-grid { display: grid; gap: 20px; }
+  .news-card {
+    background: #1e1e1e;
+    border-left: 4px solid #b8962e;
+    padding: 20px 22px;
+    transition: background 0.2s;
+  }
+  .news-card:hover { background: #242424; }
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .source-badge {
+    background: #2a2a2a;
+    color: #b8962e;
+    padding: 3px 9px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .card-date {
+    color: #666;
+    font-size: 0.72rem;
+    font-family: Arial, sans-serif;
+  }
+  .card-headline {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .card-headline a {
+    color: #e8e8e8;
+    text-decoration: none;
+  }
+  .card-headline a:hover { color: #b8962e; text-decoration: underline; }
+  .card-summary {
+    color: #aaa;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    font-family: Arial, sans-serif;
+  }
+
+  /* ARCHIVE */
+  .archive-info {
+    background: #1e1e1e;
+    border-left: 4px solid #444;
+    padding: 20px;
+    color: #888;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .archive-info a { color: #b8962e; }
+  #archive-list { margin-top: 20px; display: grid; gap: 12px; }
+  .archive-item {
+    background: #1e1e1e;
+    border-left: 4px solid #333;
+    padding: 14px 18px;
+    font-family: Arial, sans-serif;
+  }
+  .archive-item a { color: #b8962e; text-decoration: none; font-weight: 700; font-size: 0.85rem; }
+  .archive-item a:hover { text-decoration: underline; }
+  .archive-item .adate { color: #666; font-size: 0.72rem; margin-top: 3px; }
+  #archive-loading { color: #666; font-family: Arial, sans-serif; font-size: 0.85rem; padding: 16px 0; }
+
+  /* CREDIBILITY NOTE */
+  .credibility-note {
+    background: #111;
+    border-top: 2px solid #222;
+    padding: 18px 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 0.72rem;
+    color: #555;
+    letter-spacing: 0.3px;
+    line-height: 1.6;
+  }
+  .credibility-note span { color: #b8962e; }
+</style>
+</head>
+<body>
+
+<!-- ARCHIVE BANNER -->
+<div style="background:#111;color:#b8962e;text-align:center;padding:8px;font-family:Arial,sans-serif;font-size:0.78rem;font-weight:700;">
+  EVENING EDITION &mdash; 26 June 2026 &nbsp;|&nbsp;
+  <a href="https://buildmatepodcast.github.io/construction-news" style="color:#b8962e;">View Latest Edition &rarr;</a>
+</div>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <h1>Construction &amp; Design Intelligence</h1>
+  <div class="tagline">India &amp; Global &nbsp;&middot;&nbsp; Tier-1 Sources Only &nbsp;&middot;&nbsp; Powered by The CODE Podcast</div>
+</div>
+
+<!-- META BAR -->
+<div class="meta-bar">
+  <div>
+    <strong style="color:#e0e0e0;">Friday, 26 June 2026</strong>
+    &nbsp;|&nbsp; Last updated: 26 Jun 2026 &middot; Evening IST
+    &nbsp;|&nbsp; <span class="story-count">20 Stories</span> across 4 categories
+  </div>
+  <button class="refresh-btn" onclick="sendPrompt('Refresh my construction news dashboard with the latest stories from credible sources and update the artifact')">&#8635; Refresh</button>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <div class="nav-tab active" onclick="showTab('india')">&#127470;&#127475; India Construction</div>
+  <div class="nav-tab" onclick="showTab('global')">&#127758; Global Construction</div>
+  <div class="nav-tab" onclick="showTab('arch')">&#127963; Architecture &amp; Design</div>
+  <div class="nav-tab" onclick="showTab('tech')">&#9881; Construction Tech</div>
+  <div class="nav-tab" onclick="showTab('archive')">&#128194; Archive</div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- INDIA CONSTRUCTION -->
+  <div id="india" class="section active">
+    <div class="section-header">
+      <h2>India Construction</h2>
+      <p>Sources: constructionworld.in &middot; business-standard.com &middot; pib.gov.in &middot; infrastructuretoday.co.in</p>
+    </div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">PIB India</span>
+          <span class="card-date">9 June 2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2270740&reg=3&lang=1" target="_blank">Infrastructure at the Core of India's Development: 3.91 Crore Houses Sanctioned, MAHSR Corridor Advances</a>
+        </div>
+        <p class="card-summary">India has sanctioned 3.91 crore houses under PMAY with 3.06 crore completed&mdash;around 75% of beneficiaries are women&mdash;while the SWAMIH Fund has delivered over 63,000 homes backed by a Rs 15,531 crore corpus. The Mumbai&ndash;Ahmedabad High-Speed Rail corridor continues construction, designed for operations at up to 320 kmph, with the Vande Bharat Sleeper recording 100% occupancy across 119 trips in its first three months.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Business Standard</span>
+          <span class="card-date">25 June 2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.business-standard.com/content/press-releases-ani/rahsta-2026-maps-the-future-of-india-s-roads-126062500548_1.html" target="_blank">RAHSTA 2026 Maps the Future of India's Roads as Focus Shifts to Quality Over Quantity</a>
+        </div>
+        <p class="card-summary">The 16th RAHSTA Expo, scheduled for July 8&ndash;9, highlights a pivotal shift in India's road sector where contractors are becoming more selective, project financing models are evolving, and sustainability is becoming integral to infrastructure development. The industry is transitioning from a focus on building more roads to building better, more resilient ones with advanced technology adoption.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Construction World</span>
+          <span class="card-date">June 2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.constructionworld.in/transport-infrastructure/metro-rail-and-railways-infrastructure/indian-railways-approves-rs-4.05-billion-signalling-upgrade-on-eastern-railway/93403" target="_blank">Indian Railways Approves Rs 4.05 Billion Signalling Upgrade Across 32 Eastern Railway Stations</a>
+        </div>
+        <p class="card-summary">Indian Railways has approved a Rs 4.05 billion project to replace legacy relay-based interlocking systems with state-of-the-art Electronic Interlocking at 32 stations on the Eastern Railway network. The modernisation initiative will significantly enhance operational safety, reduce signal failures, and improve train punctuality across one of India's most congested rail corridors.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Business Standard</span>
+          <span class="card-date">3 June 2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.business-standard.com/markets/capital-market-news/b-r-goyal-infrastructure-wins-rs-118-crore-nhai-contract-in-gujarat-126060300117_1.html" target="_blank">B.R. Goyal Infrastructure Wins Rs 118 Crore NHAI Toll Contract for NH-8 in Gujarat</a>
+        </div>
+        <p class="card-summary">B.R. Goyal Infrastructure received a letter of award from NHAI for user fee collection at Kathpur Fee Plaza on the Himmat Nagar&ndash;Chiloda section of National Highway 8 in Gujarat, valued at Rs 118.02 crore. The fee plaza will be handed over after completion of the existing contract on July 17, 2026, adding to the company's growing NHAI portfolio.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Construction World</span>
+          <span class="card-date">June 2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.constructionworld.in/policy-updates-and-economic-news/patel-engineering-secures-rs-1263.7-million-tasgaon-contract/93388" target="_blank">Patel Engineering Secures Rs 1,263.7 Million Tasgaon Lift Irrigation Scheme Contract</a>
+        </div>
+        <p class="card-summary">Patel Engineering Limited has been awarded the Tasgaon Lift Irrigation Scheme contract worth Rs 1,263.7 million, strengthening the company's position in Maharashtra's irrigation infrastructure sector. The project will expand irrigation capacity in the Tasgaon region, forming part of ongoing government investment in water infrastructure for agricultural development.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GLOBAL CONSTRUCTION -->
+  <div id="global" class="section">
+    <div class="section-header">
+      <h2>Global Construction</h2>
+      <p>Sources: enr.com &middot; globalconstructionreview.com &middot; constructiondive.com &middot; bdcnetwork.com</p>
+    </div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Global Construction Review</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.globalconstructionreview.com/2026-global-cost-outlook-harder-conditions-than-weve-seen-for-some-time/" target="_blank">2026 Global Cost Outlook: 'Harder Conditions Than We've Seen for Some Time' Across All Regions</a>
+        </div>
+        <p class="card-summary">Global construction faces harder conditions in 2026 with cost escalation ranging from 3.6% in the UK and 3% in France to 10&ndash;12% for base materials in Japan; global volume is forecast to grow just 1.2% this year before recovering to a 3% annual average through the decade. Regional pressures are driven by tariff impacts, labour shortages, and supply chain constraints that vary dramatically by market.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Construction Dive</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.constructiondive.com/news/tariffs-construction-input-prices-january-2026/813419/" target="_blank">Tariffs Drove Construction Input Prices Up 0.7% in January as Aluminum Surges 30.5% Year-on-Year</a>
+        </div>
+        <p class="card-summary">Construction input prices rose 0.7% month-to-month in January 2026 driven by tariff-affected materials, with aluminum mill shapes surging 30.5% year-over-year and steel mill products jumping 17% through 2025. Nonresidential construction costs finished 2025 up 3.2% overall, with tariff-related impacts expected to continue rippling through 2026 project budgets.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Construction Dive</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.constructiondive.com/news/construction-labor-market-stagnant-hires-layoffs/819426/" target="_blank">Construction's Labor Market Remained Stagnant Through Q1 2026 With 224,000 Unfilled Jobs</a>
+        </div>
+        <p class="card-summary">The construction industry counted 224,000 unfilled jobs at the end of March 2026&mdash;54,000 fewer vacancies than a year earlier&mdash;reflecting a slowing but structurally tight labour market amid project uncertainty and tariff headwinds. An aging workforce and insufficient young entrants continue to drive a skilled-worker shortage that industry groups warn will worsen without targeted recruitment investment.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">ENR</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.enr.com/articles/62169-abc-construction-industry-to-face-real-risks-in-2026" target="_blank">ABC Warns Construction Industry Faces 'Real Risks' in 2026 from Tariffs and Regulatory Uncertainty</a>
+        </div>
+        <p class="card-summary">The Associated Builders and Contractors flagged genuine risks in 2026 from tariff volatility, skilled-labor shortages, and evolving regulatory requirements that add cost and delay to projects. Despite these headwinds, strong demand from tech-sector data center buildouts and sustained public infrastructure investment are expected to keep overall industry activity elevated.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">ENR</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.enr.com/articles/62828-nemetschek-to-buy-hcss-for-24b-expanding-reach-into-heavy-civil-contractor-software" target="_blank">Nemetschek to Acquire HCSS for $2.4 Billion, Expanding Into Heavy Civil Contractor Software</a>
+        </div>
+        <p class="card-summary">Munich-based Nemetschek Group announced a $2.4 billion deal to acquire HCSS from Thoma Bravo, the company's largest ever acquisition and a major push into the heavy civil and infrastructure contractor market. HCSS supports over 4,000 companies through HeavyBid and HeavyJob platforms for bidding, cost control and jobsite operations on highway and utility projects.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ARCHITECTURE & DESIGN -->
+  <div id="arch" class="section">
+    <div class="section-header">
+      <h2>Architecture &amp; Design</h2>
+      <p>Sources: archdaily.com &middot; dezeen.com &middot; architectural-review.com &middot; wallpaper.com</p>
+    </div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Dezeen</span>
+          <span class="card-date">24 June 2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.dezeen.com/2026/06/24/vitrocsa-new-headquarters-switzerland-architecture/" target="_blank">Vitrocsa Completes New Swiss Headquarters That Embodies "Precision, Innovation and Transparency"</a>
+        </div>
+        <p class="card-summary">Swiss glazing brand Vitrocsa has completed its new headquarters at Y-Parc in Yverdon-les-Bains following 18 months of construction, consolidating all company activities under one roof while doubling as a demonstrative showroom for its minimalist framing systems. The building exemplifies Vitrocsa's design philosophy of maximising glass area and minimising frame visibility through highly engineered precision construction.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Dezeen</span>
+          <span class="card-date">June 2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.dezeen.com/architecture/" target="_blank">Herzog &amp; de Meuron Completes Mailand-Strasse Headquarters in Basel Using Exposed Timber, Concrete and Metal</a>
+        </div>
+        <p class="card-summary">Architecture studio Herzog &amp; de Meuron has completed Mailand-Strasse, a new headquarters building for its own teams in Basel designed with a material palette of exposed timber, concrete and metal informed by "logistics and infrastructure" aesthetics. The project represents a significant addition to the firm's home campus and reflects the studio's ongoing exploration of raw, honest materiality in contemporary architecture.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">ArchDaily</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.archdaily.com/1038873/meet-the-15-winning-projects-of-the-2026-archdaily-building-of-the-year-awards" target="_blank">ArchDaily Reveals 15 Winners of 2026 Building of the Year Awards Across 14 Countries, 120K+ Votes</a>
+        </div>
+        <p class="card-summary">The 17th edition of ArchDaily's Building of the Year Awards received over 120,000 votes from more than 100 countries, with 15 winners from Brazil, India, Portugal, Ethiopia, Denmark and 9 other nations&mdash;including a revitalized canning factory, a memorial park, and a wooden pavilion evoking Bahrain's heritage. Winners reflect a common thread of material intelligence and depth, with readers favouring projects rooted in substance over surface aesthetics.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">ArchDaily</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.archdaily.com/1040037/reversible-cultural-pavilion-activates-public-space-in-frankfurt-2026" target="_blank">Reversible Cultural Pavilion Activates Frankfurt Public Space, Demonstrating Circular Architecture Principles</a>
+        </div>
+        <p class="card-summary">A new reversible cultural pavilion has been completed in Frankfurt, activating underutilised public space through a design engineered for full disassembly and future material reuse rather than demolition. The project illustrates a growing movement in circular architecture where buildings are conceived as temporary-permanent structures that can be relocated, reconfigured or reborn as entirely new projects.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Dezeen</span>
+          <span class="card-date">1 June 2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.dezeen.com/2026/06/01/eight-architecture-design-events-june-dezeen-events-guide-2026/" target="_blank">Eight Must-See Architecture &amp; Design Events Define June 2026: London, Barcelona, San Francisco, Helsinki</a>
+        </div>
+        <p class="card-summary">June 2026's major architecture events include the London Festival of Architecture (theme: Belonging) activating 11 city neighbourhoods, San Francisco Design Week's 20th anniversary (theme: Multitudes), and the UIA World Congress of Architects in Barcelona hosting a critical discussion on architectural awards on June 29. Finland's Fiskars Village Art and Design Biennale simultaneously transforms a historic industrial village into an international hub of contemporary design.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONSTRUCTION TECH -->
+  <div id="tech" class="section">
+    <div class="section-header">
+      <h2>Construction Tech</h2>
+      <p>Sources: enr.com &middot; constructiondive.com &middot; autodesk.com &middot; procore.com</p>
+    </div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">ENR</span>
+          <span class="card-date">9 June 2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.enr.com/articles/62770-trimble-acquires-document-crunch-plans-to-integrate-agentic-ai-contract-review" target="_blank">Trimble Acquires Document Crunch, Launches Agentic AI Platform for Construction Contract Risk Intelligence</a>
+        </div>
+        <p class="card-summary">Trimble acquired Document Crunch&mdash;an AI startup scanning construction contracts for risk provisions, payment disputes, and specification non-compliance&mdash;and on June 9 released its Project Assist agentic AI platform, which analyzes entire document sets including contracts, specs and addenda simultaneously. The acquisition embeds a "contractual rule set" as intelligent DNA throughout Trimble's Construction One suite, automatically pushing critical obligations and compliance requirements into project workflows.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Construction Dive</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.constructiondive.com/news/nemetschek-group-acquires-hcss-contech-merger-acquisition/817673/" target="_blank">Nemetschek's $2.4B HCSS Acquisition Signals Accelerating Consolidation Wave Across Contech Sector</a>
+        </div>
+        <p class="card-summary">Nemetschek Group's $2.4 billion acquisition of HCSS&mdash;which generated $215 million in revenue in 2025 and supports 4,000+ heavy civil contractors&mdash;is the largest contech deal of the year and signals a wave of consolidation across the construction software landscape. The deal places HCSS alongside Bluebeam and GoCanvas within Nemetschek's Build &amp; Construct segment, creating a more comprehensive platform spanning design to field operations.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">ENR</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.enr.com/articles/62515-ceo-why-visual-intelligence-is-the-next-big-shift-in-construction-technology" target="_blank">Visual Intelligence Identified as the Next Major Technology Shift in Construction, Powered by Spatial AI</a>
+        </div>
+        <p class="card-summary">Visual intelligence&mdash;spatial AI systems trained on images and physical context&mdash;is emerging as the next significant technology shift in construction, enabling real-time recognition of materials, association of site photos with 3D BIM models, and automated progress tracking over time. Unlike generic AI tools, these systems understand location, sequence and relationships between building elements, supporting quality control, safety monitoring and progress reporting with minimal manual input.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Autodesk</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://adsknews.autodesk.com/en/news/autodesk-design-and-make-intelligence/" target="_blank">Autodesk Launches Forma Building Design and Deeper Revit Cloud Connections for Design-to-Make Intelligence</a>
+        </div>
+        <p class="card-summary">Autodesk announced Forma Building Design alongside deeper cloud integration for Revit, advancing its vision of continuous data flow across planning, design and construction so teams can build directly on prior work without re-entering information. The platform shift moves the industry from file-based workflows to cloud-connected project intelligence, enabling AI to operate across the full project lifecycle from concept to construction.</p>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta">
+          <span class="source-badge">Construction Dive</span>
+          <span class="card-date">2026</span>
+        </div>
+        <div class="card-headline">
+          <a href="https://www.constructiondive.com/news/mckinsey-alice-technologies-partner-generative-ai-schedule/817580/" target="_blank">McKinsey Partners with ALICE Technologies to Deploy Generative AI Scheduling on Major Construction Projects</a>
+        </div>
+        <p class="card-summary">McKinsey &amp; Company has partnered with ALICE Technologies to bring generative AI-powered construction scheduling optimisation to major projects, combining consulting expertise with ALICE's platform that generates and evaluates thousands of construction sequences to find optimal schedules. The collaboration marks a significant step in moving enterprise-grade AI scheduling from pilot programs to mainstream production deployments on complex projects.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ARCHIVE -->
+  <div id="archive" class="section">
+    <div class="section-header">
+      <h2>Archive</h2>
+      <p>Past editions &mdash; hosted on GitHub Pages</p>
+    </div>
+    <div class="archive-info">
+      <strong style="color:#b8962e;">Past Editions Archive</strong><br>
+      All past editions are stored in the <a href="https://github.com/buildmatepodcast/construction-news/tree/main/archive" target="_blank">GitHub repository archive</a>.
+      Visit the live site at <a href="https://buildmatepodcast.github.io/construction-news" target="_blank">buildmatepodcast.github.io/construction-news</a>.
+    </div>
+    <div id="archive-loading">Loading archive from GitHub...</div>
+    <div id="archive-list"></div>
+  </div>
+
+</div>
+
+<!-- CREDIBILITY NOTE -->
+<div class="credibility-note">
+  <span>CREDIBILITY POLICY</span> &nbsp;|&nbsp; This dashboard draws exclusively from verified Tier-1 sources:
+  constructionworld.in &middot; business-standard.com &middot; pib.gov.in &middot; infrastructuretoday.co.in &middot; enr.com &middot; globalconstructionreview.com &middot;
+  constructiondive.com &middot; bdcnetwork.com &middot; archdaily.com &middot; dezeen.com &middot; architectural-review.com &middot; autodesk.com &middot; procore.com<br>
+  <span style="color:#555;">No sponsored content &middot; No fabricated stories &middot; Powered by The CODE Podcast &mdash; India's #1 Construction Podcast</span>
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const tabs = ['india','global','arch','tech','archive'];
+    const idx = tabs.indexOf(id);
+    document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+    if (id === 'archive') loadArchive();
+  }
+
+  function loadArchive() {
+    const listEl = document.getElementById('archive-list');
+    const loadingEl = document.getElementById('archive-loading');
+    if (listEl.children.length > 0) return;
+    fetch('https://api.github.com/repos/buildmatepodcast/construction-news/contents/archive')
+      .then(r => r.json())
+      .then(files => {
+        loadingEl.style.display = 'none';
+        if (!Array.isArray(files) || files.length === 0) {
+          listEl.innerHTML = '<div class="archive-info">No archive files found yet.</div>';
+          return;
+        }
+        const htmlFiles = files.filter(f => f.name.endsWith('.html')).reverse();
+        if (htmlFiles.length === 0) {
+          listEl.innerHTML = '<div class="archive-info">No archive files found yet.</div>';
+          return;
+        }
+        htmlFiles.forEach(f => {
+          const item = document.createElement('div');
+          item.className = 'archive-item';
+          const label = f.name.replace('.html','').replace(/-/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+          item.innerHTML = '<a href="https://buildmatepodcast.github.io/construction-news/archive/' + f.name + '" target="_blank">' + label + '</a><div class="adate">' + f.name + '</div>';
+          listEl.appendChild(item);
+        });
+      })
+      .catch(() => {
+        loadingEl.style.display = 'none';
+        listEl.innerHTML = '<div class="archive-info">Archive unavailable &mdash; <a href="https://github.com/buildmatepodcast/construction-news/tree/main/archive" target="_blank">view on GitHub</a></div>';
+      });
+  }
+
+  function sendPrompt(text) {
+    if (window.sendPrompt) window.sendPrompt(text);
+  }
+</script>
+
+</body>
+</html>
