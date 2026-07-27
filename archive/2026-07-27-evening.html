@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construction &amp; Design Intelligence — The CODE Podcast</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; color: #e0e0e0; font-family: 'Georgia', serif; }
+  .masthead { background: #111; border-bottom: 3px solid #b8962e; padding: 28px 24px 20px; text-align: center; }
+  .masthead-eyebrow { font-family: Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; color: #b8962e; text-transform: uppercase; margin-bottom: 8px; }
+  .masthead-title { font-size: 2.4rem; font-weight: 700; color: #f5f0e8; letter-spacing: 0.02em; line-height: 1.1; }
+  .masthead-title span { color: #b8962e; }
+  .masthead-tagline { font-family: Arial, sans-serif; font-size: 0.78rem; color: #999; margin-top: 8px; letter-spacing: 0.05em; }
+  .meta-bar { background: #0d0d0d; border-bottom: 1px solid #2a2a2a; padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-family: Arial, sans-serif; font-size: 0.72rem; color: #777; }
+  .meta-bar .date { color: #b8962e; font-weight: 700; }
+  .refresh-btn { background: #b8962e; color: #111; border: none; padding: 5px 14px; font-family: Arial, sans-serif; font-size: 0.7rem; font-weight: 700; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase; }
+  .refresh-btn:hover { background: #d4ab3a; }
+  .nav-tabs { background: #111; border-bottom: 2px solid #2a2a2a; display: flex; overflow-x: auto; position: sticky; top: 0; z-index: 100; padding: 0 16px; }
+  .nav-tab { font-family: Arial, sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #777; padding: 14px 18px; cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; transition: all 0.2s; flex-shrink: 0; }
+  .nav-tab:hover { color: #b8962e; }
+  .nav-tab.active { color: #b8962e; border-bottom-color: #b8962e; }
+  .content { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; padding-bottom: 14px; border-bottom: 1px solid #2a2a2a; }
+  .section-header h2 { font-size: 1.3rem; font-weight: 700; color: #f5f0e8; letter-spacing: 0.03em; }
+  .section-badge { background: #b8962e; color: #111; font-family: Arial, sans-serif; font-size: 0.62rem; font-weight: 700; padding: 3px 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+  .news-card { background: #1e1e1e; border-left: 4px solid #b8962e; padding: 20px; transition: background 0.2s; }
+  .news-card:hover { background: #242424; }
+  .card-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .source-badge { background: #2a2a2a; color: #b8962e; font-family: Arial, sans-serif; font-size: 0.62rem; font-weight: 700; padding: 3px 8px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .card-date { font-family: Arial, sans-serif; font-size: 0.65rem; color: #666; }
+  .card-headline { font-size: 1rem; font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
+  .card-headline a { color: #f0ebe0; text-decoration: none; }
+  .card-headline a:hover { color: #b8962e; }
+  .card-summary { font-size: 0.83rem; color: #aaa; line-height: 1.6; }
+  .archive-intro { font-family: Arial, sans-serif; font-size: 0.83rem; color: #888; margin-bottom: 20px; line-height: 1.6; }
+  .archive-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .archive-card { background: #1e1e1e; border-left: 3px solid #555; padding: 14px; }
+  .archive-card:hover { border-left-color: #b8962e; }
+  .archive-card a { font-family: Arial, sans-serif; font-size: 0.78rem; color: #ccc; text-decoration: none; }
+  .archive-card a:hover { color: #b8962e; }
+  #archive-loading { font-family: Arial, sans-serif; font-size: 0.83rem; color: #666; padding: 20px 0; }
+  #archive-error { font-family: Arial, sans-serif; font-size: 0.83rem; color: #c0392b; padding: 20px 0; display: none; }
+  .footer { background: #111; border-top: 2px solid #2a2a2a; padding: 24px; text-align: center; margin-top: 48px; }
+  .footer-policy { font-family: Arial, sans-serif; font-size: 0.7rem; color: #555; line-height: 1.7; max-width: 700px; margin: 0 auto; }
+  .footer-policy span { color: #b8962e; font-weight: 700; }
+  .footer-brand { font-family: Arial, sans-serif; font-size: 0.75rem; color: #444; margin-top: 12px; }
+</style>
+</head>
+<body>
+<div style="background:#111;color:#b8962e;text-align:center;padding:8px;font-family:Arial,sans-serif;font-size:0.78rem;font-weight:700;">
+  EVENING EDITION &mdash; 27 July 2026 &nbsp;|&nbsp;
+  <a href="https://buildmatepodcast.github.io/construction-news" style="color:#b8962e;">View Latest Edition &rarr;</a>
+</div>
+
+<div class="masthead">
+  <div class="masthead-eyebrow">The CODE Podcast &middot; India's #1 Construction Podcast</div>
+  <div class="masthead-title">Construction &amp; <span>Design</span> Intelligence</div>
+  <div class="masthead-tagline">India &amp; Global &nbsp;&middot;&nbsp; Tier-1 Sources Only &nbsp;&middot;&nbsp; Powered by The CODE Podcast</div>
+</div>
+
+<div class="meta-bar">
+  <div>
+    <span class="date">Monday, 27 July 2026</span>
+    &nbsp;&middot;&nbsp;
+    <span>Last updated: 27 Jul 2026 &middot; 18:06 IST</span>
+    &nbsp;&middot;&nbsp;
+    <span>20 stories &middot; 4 categories</span>
+  </div>
+  <button class="refresh-btn" onclick="sendPrompt('Refresh my construction news dashboard with the latest stories from credible sources and update the artifact')">&#x21BB; Refresh</button>
+</div>
+
+<div class="nav-tabs">
+  <div class="nav-tab active" onclick="showTab('india', this)">India Construction</div>
+  <div class="nav-tab" onclick="showTab('global', this)">Global Construction</div>
+  <div class="nav-tab" onclick="showTab('architecture', this)">Architecture &amp; Design</div>
+  <div class="nav-tab" onclick="showTab('tech', this)">Construction Tech</div>
+  <div class="nav-tab" onclick="showTab('archive', this)">Archive</div>
+</div>
+
+<div class="content">
+
+  <!-- INDIA CONSTRUCTION -->
+  <div class="section active" id="section-india">
+    <div class="section-header">
+      <h2>India Construction &amp; Infrastructure</h2>
+      <span class="section-badge">5 Stories</span>
+    </div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Business Standard</span><span class="card-date">26 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.business-standard.com/economy/news/mce-linked-capital-expenditure-likely-to-reach-10-trillion-by-2030-126072600524_1.html" target="_blank">MCE-Linked Capital Expenditure Likely to Reach &#8377;10 Trillion by 2030</a></div>
+        <div class="card-summary">India's annual capital expenditure across mining and construction equipment-linked sectors is projected to nearly double to &#8377;10 trillion by 2030, up from &#8377;5 trillion in 2025. The mining and construction equipment market itself is now estimated at $17 billion and growing 10-12% annually.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Business Standard</span><span class="card-date">24 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.business-standard.com/companies/news/tata-consulting-engineers-targets-1-billion-revenue-by-fy31-126072400936_1.html" target="_blank">Tata Consulting Engineers Targets $1 Billion Revenue by FY31</a></div>
+        <div class="card-summary">Tata Consulting Engineers is aiming to become a $1 billion revenue company by FY31, betting on sustained capital investment in energy, semiconductors, metals and infrastructure. The firm expects both domestic and overseas project pipelines to drive the growth.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction World</span><span class="card-date">20 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructionworld.in/transport-infrastructure/metro-rail-and-railways-infrastructure/indian-railways-reform-push-could-transform-infrastructure-delivery/94660" target="_blank">Indian Railways Reform Push Could Transform Infrastructure Delivery</a></div>
+        <div class="card-summary">The Centre has unveiled a reform package for Indian Railways aimed at accelerating infrastructure delivery, improving freight efficiency and cutting logistics costs. The plan aligns with PM Gati Shakti and includes faster land acquisition, digital project monitoring and expanded freight corridors.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Business Standard</span><span class="card-date">14 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.business-standard.com/india-news/centre-clears-delhi-infrastructure-projects-sasci-funding-126071400779_1.html" target="_blank">Centre Clears &#8377;1,647 Crore for 28 Infrastructure Projects in Delhi</a></div>
+        <div class="card-summary">The Centre approved &#8377;1,647 crore under the SASCI scheme for 28 Delhi projects, including Delhi Metro expansion, the Barapullah Elevated Corridor and the Karawal Nagar flyover. An additional &#8377;756 crore performance incentive was granted for the city's capital expenditure gains.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction World</span><span class="card-date">16 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructionworld.in/energy-infrastructure/power-and-renewable-energy/indias-first-hydrogen-train-to-launch-in-july/94465" target="_blank">India's First Hydrogen Train to Launch in July</a></div>
+        <div class="card-summary">India is set to launch its first hydrogen fuel-cell train this month, marking a milestone in rail decarbonisation. The pilot will assess range, refuelling logistics and maintenance regimes ahead of wider rollout on routes lacking overhead electrification.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GLOBAL CONSTRUCTION -->
+  <div class="section" id="section-global">
+    <div class="section-header">
+      <h2>Global Construction</h2>
+      <span class="section-badge">5 Stories</span>
+    </div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction Dive</span><span class="card-date">14 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructiondive.com/news/iija-expiration-september-construction-execs-want-new-funds/825184/" target="_blank">The $1.2T IIJA Expires Sept. 30. That's Making Construction Execs Nervous.</a></div>
+        <div class="card-summary">Congress has until September 30 to renew the $1.2 trillion Infrastructure Investment and Jobs Act, which funds about 80% of major US transportation projects. A July 2 AGC poll found 78% of voters want Congress to pass a new highway, bridge and transit funding bill.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction Dive</span><span class="card-date">23 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructiondive.com/news/groundbreakings-cooled-june-megaproject-boom-eased/826001/" target="_blank">Groundbreakings Cooled in June After Megaproject Boom Eased</a></div>
+        <div class="card-summary">Total US construction starts fell 19.9% month-over-month in June to a seasonally adjusted $1.42 trillion, per Dodge Construction Network, after a stretch of multibillion-dollar groundbreakings in May. Commercial construction still rose 1.2%, led by warehouse and hotel activity.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction Dive</span><span class="card-date">22 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructiondive.com/news/canada-tariffs-pressure-concrete-cement/825869/" target="_blank">Canada Tariffs Put Pressure on Concrete, Cement Prices</a></div>
+        <div class="card-summary">A new 50% US tariff on Canadian imports, effective August 19, is expected to raise cement and concrete costs on highway, bridge and foundation work. Attorneys warn the levy could scuttle existing bid estimates and increase the risk of contract disputes.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction Dive</span><span class="card-date">17 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructiondive.com/news/skanska-earnings-record-order-intake-q2/825587/" target="_blank">Skanska Reports Record $7B Order Intake for Q2</a></div>
+        <div class="card-summary">Skanska booked a record 68 billion Swedish krona ($7 billion) in second-quarter orders, up 20% year-over-year, led by US data center and civil infrastructure work. The firm's backlog now stands at 21 months of work, which its CEO called "unusually high."</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction Dive</span><span class="card-date">15 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructiondive.com/news/meta-commits-50b-louisiana-data-center-richland-parish/825329/" target="_blank">Meta Commits $50B to Louisiana Data Center, Surrounding Region</a></div>
+        <div class="card-summary">Meta will invest more than $50 billion in its Richland Parish, Louisiana data center campus, expanding it to nearly 10 million square feet and 5 gigawatts of capacity. The project, built by Turner, Mortenson and DPR, is expected to support 7,500 construction jobs at peak.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ARCHITECTURE & DESIGN -->
+  <div class="section" id="section-architecture">
+    <div class="section-header">
+      <h2>Architecture &amp; Design</h2>
+      <span class="section-badge">5 Stories</span>
+    </div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Dezeen</span><span class="card-date">1 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.dezeen.com/2026/07/01/five-architecture-design-events-july-dezeen-events-guide-2026/" target="_blank">Five Architecture and Design Events in July from Dezeen Events Guide</a></div>
+        <div class="card-summary">Dezeen's July events guide spotlights London's New Designers graduate showcase and Ai Weiwei's "Button Up!" exhibition in Manchester, among five events. The lineup also includes Thailand's Isan Creative Festival and a Scottish architecture summer school.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Dezeen</span><span class="card-date">5 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.dezeen.com/eventsguide/2026/07/architects-of-liberation/" target="_blank">MoMA Opens "Architects of Liberation" Exhibition on West African Modernism</a></div>
+        <div class="card-summary">The Museum of Modern Art's new exhibition explores West African modernist architecture built between the 1950s and 1980s across seven countries. More than 450 models, drawings and photographs trace how design reflected the region's political independence movements.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Dezeen</span><span class="card-date">21 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.dezeen.com/2026/07/21/mvrdv-rotterdam-rocks-shift-competition/" target="_blank">MVRDV Wins Competition for "New World Wonder" in the Netherlands</a></div>
+        <div class="card-summary">MVRDV's "Rotterdam Rocks!" design &#8212; seven stacked, rock-like volumes on the river Maas &#8212; won Shift's &#8364;240 million competition for a climate-focused landmark. The scheme beat proposals from Heatherwick Studio and Mecanoo and will house exhibitions, a hotel and a conference centre.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Dezeen</span><span class="card-date">23 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.dezeen.com/2026/07/23/world-tallest-timber-tower-atlassian-central-sydney/" target="_blank">World's Tallest Timber Tower Tops Out in Sydney</a></div>
+        <div class="card-summary">The 180-metre Atlassian Central tower by SHoP Architects and BVN topped out in Sydney, becoming the world's tallest hybrid timber building. Its mass-timber "habitats" wrapped in a steel exoskeleton are expected to cut embodied carbon by 50% versus a conventional office tower.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Dezeen</span><span class="card-date">24 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.dezeen.com/2026/07/24/sanaa-design-for-national-museum-of-ecuador-selected/" target="_blank">SANAA Proposal for National Museum of Ecuador Selected After Public Backlash</a></div>
+        <div class="card-summary">A curved brick design by SANAA and collaborators was chosen for Quito's Museo Nacional de Ecuador after the government recalled an earlier winning scheme following public criticism. The nine-storey "Living Strata" design draws on pre- and post-Columbian culture and is expected to break ground in 2027.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONSTRUCTION TECH -->
+  <div class="section" id="section-tech">
+    <div class="section-header">
+      <h2>Construction Technology &amp; Innovation</h2>
+      <span class="section-badge">5 Stories</span>
+    </div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction Dive</span><span class="card-date">1 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructiondive.com/news/suffolk-jobsite-of-the-future-ai-engineers-testing/824243/" target="_blank">AI Engineers and Testing: How Suffolk Adds Tech to Its Workflows</a></div>
+        <div class="card-summary">Suffolk Construction's "Jobsite of the Future" program embeds AI engineers with project teams to automate document reviews and build bespoke tools. VP Doug Harrison says consistent technology deployment is essential to capture the clean data that dashboards and executives rely on.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction Dive</span><span class="card-date">8 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructiondive.com/news/texas-am-ai-reduce-struck-bys-construction-jobsites/824722/" target="_blank">How AI Could Reduce Struck-Bys in Road Work Zones</a></div>
+        <div class="card-summary">Texas A&amp;M researchers are combining VR, AI-driven augmented reality and brain-activity monitoring to combat "habituation," where road crews grow desensitized to jobsite hazards. Generative AI is making it cheaper to build project-specific safety training instead of generic, one-size-fits-all simulations.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction Dive</span><span class="card-date">20 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructiondive.com/news/ai-data-center-growth-utilities-generation-plans/825631/" target="_blank">AI Data Center Growth Could Force US Utilities to Rethink Generation Plans, BofA Says</a></div>
+        <div class="card-summary">Bank of America analysts project data center demand will outpace planned US utility capacity additions by more than 100 GW through 2030. With large gas turbines sold out through the decade, developers are turning to onsite gas engines and battery storage to keep projects on schedule.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">ENR</span><span class="card-date">14 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.enr.com/articles/63315-new-york-orders-moratorium-on-large-data-center-permits" target="_blank">New York Orders Moratorium on Large Data Center Permits</a></div>
+        <div class="card-summary">Gov. Kathy Hochul ordered a halt on new environmental permits for large data centers while the state develops standards for their energy, water and community impacts &#8212; the first such statewide pause in the US. Industry groups warned the move could push investment to competing states.</div>
+      </div>
+
+      <div class="news-card">
+        <div class="card-meta"><span class="source-badge">Construction Dive</span><span class="card-date">22 July 2026</span></div>
+        <div class="card-headline"><a href="https://www.constructiondive.com/news/ai-report-construction-mckinsey-engineering-build-buy/825927/" target="_blank">How AI Automation Can Fit Into Construction Workflows: McKinsey</a></div>
+        <div class="card-summary">A July 15 McKinsey report says AI could automate 39% of nonphysical work in construction by 2030, split into near-term workflow fixes, mid-term data-driven advantages and long-term jobsite autonomy. The firm advises builders to buy standard tools and build only where their own data is the differentiator.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ARCHIVE -->
+  <div class="section" id="section-archive">
+    <div class="section-header">
+      <h2>Past Editions Archive</h2>
+      <span class="section-badge">GitHub</span>
+    </div>
+    <p class="archive-intro">Every edition of Construction &amp; Design Intelligence is archived permanently on GitHub and loaded here automatically.</p>
+    <div id="archive-loading">Loading archive from GitHub&hellip;</div>
+    <div id="archive-error">Could not load archive. <a href="https://github.com/buildmatepodcast/construction-news/tree/main/archive" style="color:#b8962e;" target="_blank">Browse on GitHub &rarr;</a></div>
+    <div class="archive-grid" id="archive-grid"></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-policy">
+    <span>Credibility Policy:</span> This dashboard only surfaces stories from verified Tier-1 sources &#8212; <em>constructionworld.in, business-standard.com, infrastructuretoday.co.in, pib.gov.in, enr.com, globalconstructionreview.com, constructiondive.com, bdcnetwork.com, archdaily.com, dezeen.com, architectural-review.com, wallpaper.com, autodesk.com, procore.com.</em> No press releases, no aggregators, no unverified sources. Every headline links directly to the original article.
+  </div>
+  <div class="footer-brand">Construction &amp; Design Intelligence &middot; Powered by The CODE Podcast &middot; buildmatepodcast@gmail.com</div>
+</div>
+
+<script>
+function showTab(name, el) {
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.getElementById('section-' + name).classList.add('active');
+  el.classList.add('active');
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  if (name === 'archive') loadArchive();
+}
+
+function loadArchive() {
+  var grid = document.getElementById('archive-grid');
+  var loading = document.getElementById('archive-loading');
+  var error = document.getElementById('archive-error');
+  if (grid.children.length > 0) return;
+  fetch('https://api.github.com/repos/buildmatepodcast/construction-news/contents/archive')
+    .then(function(r) {
+      if (!r.ok) throw new Error('Not found');
+      return r.json();
+    })
+    .then(function(files) {
+      loading.style.display = 'none';
+      if (!files || files.length === 0) {
+        grid.innerHTML = '<p style="font-family:Arial,sans-serif;font-size:0.83rem;color:#666;">No archived editions yet.</p>';
+        return;
+      }
+      files.sort(function(a, b) { return b.name.localeCompare(a.name); });
+      files.forEach(function(f) {
+        var label = f.name.replace('.html','').replace(/-/g,' ');
+        var card = document.createElement('div');
+        card.className = 'archive-card';
+        card.innerHTML = '<a href="https://buildmatepodcast.github.io/construction-news/archive/' + f.name + '" target="_blank">' + label + '</a>';
+        grid.appendChild(card);
+      });
+    })
+    .catch(function() {
+      loading.style.display = 'none';
+      error.style.display = 'block';
+    });
+}
+</script>
+</body>
+</html>
