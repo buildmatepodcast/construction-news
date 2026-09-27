@@ -8,264 +8,437 @@
   :root{
     --gold:#b8962e;
     --dark:#111111;
+    --bg:#f7f5f0;
+    --card:#ffffff;
+    --text:#222222;
+    --muted:#6b6b6b;
   }
   *{box-sizing:border-box;}
-  body{margin:0;font-family:Georgia,'Times New Roman',serif;background:#f7f5f0;color:#1a1a1a;}
-  .masthead{background:var(--dark);color:#fff;text-align:center;padding:32px 16px 20px;}
-  .masthead h1{margin:0;font-size:2.4rem;letter-spacing:1px;font-weight:700;}
-  .masthead .accent{color:var(--gold);}
-  .masthead p.tagline{margin:8px 0 0;font-family:Arial,sans-serif;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
-  .metabar{background:#1c1c1c;color:#ccc;font-family:Arial,sans-serif;font-size:0.8rem;text-align:center;padding:8px 12px;border-bottom:2px solid var(--gold);}
-  .metabar span{margin:0 10px;}
-  nav.tabs{position:sticky;top:0;z-index:50;display:flex;justify-content:center;flex-wrap:wrap;background:#fff;border-bottom:1px solid #ddd;box-shadow:0 2px 6px rgba(0,0,0,0.06);}
-  nav.tabs button{font-family:Arial,sans-serif;background:none;border:none;padding:14px 18px;font-size:0.85rem;font-weight:700;letter-spacing:0.5px;cursor:pointer;color:#444;border-bottom:3px solid transparent;text-transform:uppercase;}
-  nav.tabs button.active{color:var(--dark);border-bottom:3px solid var(--gold);}
-  nav.tabs button:hover{color:var(--gold);}
-  main{max-width:920px;margin:0 auto;padding:24px 16px 60px;}
-  section.category{display:none;}
-  section.category.active{display:block;}
-  section.category h2{font-family:Arial,sans-serif;font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;color:var(--dark);border-bottom:2px solid var(--dark);padding-bottom:8px;margin-bottom:18px;}
-  .card{background:#fff;border-left:4px solid var(--gold);padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
-  .card .badge{display:inline-block;background:var(--dark);color:#fff;font-family:Arial,sans-serif;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:2px;margin-right:8px;}
-  .card .date{font-family:Arial,sans-serif;font-size:0.72rem;color:#888;}
-  .card h3{margin:8px 0 6px;font-size:1.15rem;line-height:1.35;}
-  .card h3 a{color:#1a1a1a;text-decoration:none;}
-  .card h3 a:hover{color:var(--gold);text-decoration:underline;}
-  .card p{margin:0;font-size:0.95rem;line-height:1.5;color:#333;}
-  #archive-list{font-family:Arial,sans-serif;font-size:0.9rem;}
-  #archive-list a{display:block;padding:10px 0;border-bottom:1px solid #eee;color:#1a1a1a;text-decoration:none;}
-  #archive-list a:hover{color:var(--gold);}
-  .backtotop{display:block;text-align:center;margin:30px auto 0;font-family:Arial,sans-serif;font-size:0.8rem;}
-  .backtotop a{color:var(--gold);text-decoration:none;}
-  .refresh-bar{text-align:center;margin:0 0 24px;}
-  .refresh-btn{font-family:Arial,sans-serif;background:var(--dark);color:#fff;border:1px solid var(--gold);padding:10px 20px;font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;cursor:pointer;border-radius:3px;}
-  .refresh-btn:hover{background:var(--gold);}
-  footer.policy{font-family:Arial,sans-serif;font-size:0.75rem;color:#666;text-align:center;max-width:700px;margin:40px auto 20px;line-height:1.6;padding:0 16px;}
-  footer.policy strong{color:var(--dark);}
+  body{
+    margin:0;
+    font-family:Georgia,'Times New Roman',serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  header.masthead{
+    background:var(--dark);
+    color:#fff;
+    text-align:center;
+    padding:28px 16px 20px;
+    border-bottom:4px solid var(--gold);
+  }
+  header.masthead h1{
+    margin:0;
+    font-size:2.4rem;
+    letter-spacing:1px;
+    color:#fff;
+    font-weight:700;
+  }
+  header.masthead .tagline{
+    color:var(--gold);
+    font-family:Arial,sans-serif;
+    font-size:0.85rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-top:8px;
+  }
+  .meta-bar{
+    background:#1c1c1c;
+    color:#ccc;
+    font-family:Arial,sans-serif;
+    font-size:0.8rem;
+    text-align:center;
+    padding:8px 12px;
+    border-bottom:1px solid #333;
+  }
+  .meta-bar span{margin:0 10px;}
+  nav.tabs{
+    position:sticky;
+    top:0;
+    z-index:50;
+    display:flex;
+    justify-content:center;
+    gap:4px;
+    background:#fff;
+    border-bottom:2px solid var(--gold);
+    padding:10px 8px;
+    flex-wrap:wrap;
+  }
+  nav.tabs button{
+    font-family:Arial,sans-serif;
+    font-size:0.85rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:none;
+    border:none;
+    padding:10px 16px;
+    cursor:pointer;
+    color:var(--dark);
+    border-bottom:3px solid transparent;
+  }
+  nav.tabs button.active{
+    color:var(--gold);
+    border-bottom:3px solid var(--gold);
+  }
+  main{
+    max-width:1000px;
+    margin:0 auto;
+    padding:24px 16px 60px;
+  }
+  .section-title{
+    font-family:Arial,sans-serif;
+    font-size:1.3rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    border-bottom:2px solid var(--dark);
+    padding-bottom:8px;
+    margin-bottom:20px;
+    color:var(--dark);
+  }
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .card{
+    background:var(--card);
+    border-left:5px solid var(--gold);
+    padding:16px 20px;
+    margin-bottom:16px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  }
+  .card .row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:8px;
+    flex-wrap:wrap;
+  }
+  .badge{
+    background:var(--dark);
+    color:var(--gold);
+    font-family:Arial,sans-serif;
+    font-size:0.7rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    padding:3px 10px;
+    border-radius:2px;
+  }
+  .date{
+    font-family:Arial,sans-serif;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .card h3{
+    margin:6px 0 8px;
+    font-size:1.15rem;
+    line-height:1.35;
+  }
+  .card h3 a{
+    color:var(--dark);
+    text-decoration:none;
+  }
+  .card h3 a:hover{
+    color:var(--gold);
+    text-decoration:underline;
+  }
+  .card p{
+    margin:0;
+    font-size:0.95rem;
+    line-height:1.5;
+    color:#333;
+  }
+  #archive-panel .archive-list{
+    font-family:Arial,sans-serif;
+    font-size:0.9rem;
+  }
+  #archive-panel .archive-list a{
+    display:block;
+    padding:10px 14px;
+    margin-bottom:8px;
+    background:#fff;
+    border-left:5px solid var(--gold);
+    color:var(--dark);
+    text-decoration:none;
+  }
+  #archive-panel .archive-list a:hover{
+    background:#f0ead9;
+  }
+  .archive-status{
+    font-family:Arial,sans-serif;
+    font-size:0.85rem;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+  .refresh-wrap{
+    text-align:center;
+    margin:30px 0 10px;
+  }
+  .refresh-btn{
+    font-family:Arial,sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:0.8rem;
+    background:var(--dark);
+    color:var(--gold);
+    border:2px solid var(--gold);
+    padding:12px 28px;
+    cursor:pointer;
+    border-radius:3px;
+  }
+  .refresh-btn:hover{
+    background:var(--gold);
+    color:var(--dark);
+  }
+  footer.policy{
+    font-family:Arial,sans-serif;
+    font-size:0.75rem;
+    color:var(--muted);
+    text-align:center;
+    max-width:800px;
+    margin:40px auto 0;
+    padding:16px;
+    border-top:1px solid #ddd;
+    line-height:1.6;
+  }
 </style>
 </head>
-<body id="top">
+<body>
 
-<div class="masthead">
-  <h1>Construction <span class="accent">&amp;</span> Design Intelligence</h1>
-  <p class="tagline">India &amp; Global &middot; Tier-1 Sources Only &middot; Powered by The CODE Podcast</p>
+<header class="masthead" id="top">
+  <h1>Construction &amp; Design Intelligence</h1>
+  <div class="tagline">India &amp; Global · Tier-1 Sources Only · Powered by The CODE Podcast</div>
+</header>
+
+<div class="meta-bar">
+  <span>27 September 2026</span>
+  <span>Last updated: 27 September 2026 · 11:20 AM IST</span>
+  <span>20 stories</span>
 </div>
-<div class="metabar" id="metabar"></div>
 
-<nav class="tabs" id="tabs">
-  <button data-tab="india" class="active">India Construction</button>
-  <button data-tab="global">Global Construction</button>
-  <button data-tab="arch">Architecture &amp; Design</button>
-  <button data-tab="tech">Construction Tech</button>
-  <button data-tab="archive">Archive</button>
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="india">India Construction</button>
+  <button class="tab-btn" data-tab="global">Global Construction</button>
+  <button class="tab-btn" data-tab="architecture">Architecture &amp; Design</button>
+  <button class="tab-btn" data-tab="tech">Construction Tech</button>
+  <button class="tab-btn" data-tab="archive">Archive</button>
 </nav>
 
 <main>
-  <div class="refresh-bar">
-    <button class="refresh-btn" onclick="sendPrompt('Refresh my construction news dashboard with the latest stories from credible sources and update the artifact')">Refresh Edition</button>
+
+  <!-- INDIA -->
+  <section class="tab-panel active" id="india-panel">
+    <div class="section-title">India Construction</div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction World</span><span class="date">24 Sep 2026</span></div>
+      <h3><a href="https://www.constructionworld.in/policy-updates-and-economic-news/kalpataru-projects-wins-rs.-20.25-bn-in-new-orders/97757" target="_blank" rel="noopener">Kalpataru Projects Wins Rs. 20.25 bn in New Orders</a></h3>
+      <p>Kalpataru Projects International secured new orders and letters of award worth approximately Rs 20.25 billion spanning power transmission and distribution, buildings and factories, and oil and gas segments. The wins cover both Indian and international markets.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction World</span><span class="date">23 Sep 2026</span></div>
+      <h3><a href="https://www.constructionworld.in/energy-infrastructure/power-and-renewable-energy/power-grid-acquires-barmer-hvdc-power-transmission-project/97753" target="_blank" rel="noopener">Power Grid Acquires Barmer HVDC Power Transmission Project</a></h3>
+      <p>Power Grid Corporation of India completed its acquisition of Barmer HVDC Power Transmission, the special purpose vehicle developing an inter-state system to evacuate renewable energy from Rajasthan. The project is designed to evacuate 6 GW of solar power from the state's renewable energy zone Phase IV.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction World</span><span class="date">22 Sep 2026</span></div>
+      <h3><a href="https://www.constructionworld.in/energy-infrastructure/power-and-renewable-energy/india-to-drive-global-energy-demand-in-coming-decades-puri/97782" target="_blank" rel="noopener">India to Drive Global Energy Demand in Coming Decades: Puri</a></h3>
+      <p>Petroleum and Natural Gas Minister Hardeep Singh Puri said India will remain a key driver of global energy demand in the coming decades, speaking at the Seventh High-Level OPEC-India Energy Dialogue in New Delhi. The meeting was co-chaired with OPEC Secretary General Haitham Al Ghais.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction World</span><span class="date">2026</span></div>
+      <h3><a href="https://www.constructionworld.in/policy-updates-and-economic-news/iwg-adds-43-locations-in-india-in-h1-2026/97524" target="_blank" rel="noopener">IWG Adds 43 Locations in India in H1 2026</a></h3>
+      <p>International Workplace Group added 43 new location signings in India during the first half of 2026, making the country IWG's third-largest growth market worldwide. India is now also IWG's fastest-growing market in Asia.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">PIB</span><span class="date">Mar 2026</span></div>
+      <h3><a href="https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/mar/doc2026318829101.pdf" target="_blank" rel="noopener">Infrastructure Financing in India: Trends, Institutions, and Innovations</a></h3>
+      <p>The Press Information Bureau published a policy document examining trends in India's infrastructure funding, the institutions channelling that capital, and emerging innovative financing models. The document forms part of the government's ongoing infrastructure policy record.</p>
+    </div>
+  </section>
+
+  <!-- GLOBAL -->
+  <section class="tab-panel" id="global-panel">
+    <div class="section-title">Global Construction</div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ENR</span><span class="date">28 Sep 2026</span></div>
+      <h3><a href="https://www.enr.com/articles/63709-construction-economics-for-september-28-2026" target="_blank" rel="noopener">Construction Economics for September 28, 2026</a></h3>
+      <p>ENR's weekly economics report tracks materials and labor cost movement, noting that nonresidential construction spending outside data centers has fallen to its lowest level since September 2023. Data center and public infrastructure work continue to offset broader softness in the sector.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Global Construction Review</span><span class="date">2026</span></div>
+      <h3><a href="https://www.globalconstructionreview.com/2026-global-cost-outlook-harder-conditions-than-weve-seen-for-some-time/" target="_blank" rel="noopener">2026 Global Cost Outlook: 'Harder Conditions Than We've Seen for Some Time'</a></h3>
+      <p>Forecasters project 2026 construction cost escalation ranging from 0-1% in Hong Kong to as high as 12% in Japan, driven by energy costs, a stronger euro and persistent labour constraints. The outlook warns the industry will keep moving through 2026, but with far less pricing confidence than in recent years.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ENR</span><span class="date">2026</span></div>
+      <h3><a href="https://www.enr.com/articles/62169-abc-construction-industry-to-face-real-risks-in-2026" target="_blank" rel="noopener">ABC: Construction Industry to Face 'Real Risks' in 2026</a></h3>
+      <p>Associated Builders and Contractors flagged real risks facing the U.S. construction industry in 2026, citing economic uncertainty tied to tariffs, inflation and shifting demand. The trade group's economists note hiring has picked up even as spending confidence remains fragile.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ENR</span><span class="date">2026</span></div>
+      <h3><a href="https://www.enr.com/blogs/13-critical-path/post/63717-safety-innovation-central-to-success-of-winners-in-enr-global-competition" target="_blank" rel="noopener">Safety Innovation Central to Success of Winners in ENR Global Competition</a></h3>
+      <p>ENR's Global Best Projects competition reviewed 111 submissions and selected 32 winning projects across 21 countries, with judges highlighting safety innovation as a common thread. Hindustan Construction Co.'s Mumbai Coastal Road Project (Package II) won Best Project in the Bridge/Tunnel category.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction Dive</span><span class="date">2026</span></div>
+      <h3><a href="https://www.constructiondive.com/news/5-construction-trends-2026/808904/" target="_blank" rel="noopener">5 Construction Trends to Watch in 2026</a></h3>
+      <p>Construction Dive's 2026 trends outlook highlights data centers, AI adoption and continued cost pressure as defining forces for the year, even as broader nonresidential spending softens. The report notes construction hiring hit its highest rate in nearly two years.</p>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section class="tab-panel" id="architecture-panel">
+    <div class="section-title">Architecture &amp; Design</div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Dezeen</span><span class="date">26 Sep 2026</span></div>
+      <h3><a href="https://www.dezeen.com/2026/09/26/dezeen-awards-shortlists-this-week/" target="_blank" rel="noopener">This Week We Revealed the Dezeen Awards Shortlists</a></h3>
+      <p>Dezeen recapped this week's reveal of the Dezeen Awards 2026 shortlists, spotlighting projects across architecture, interiors and design categories. The roundup also features reader-favorite stories including a Swiss museum by Peter Zumthor and a multi-generational house in Bengaluru.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Dezeen</span><span class="date">21 Sep 2026</span></div>
+      <h3><a href="https://www.dezeen.com/2026/09/21/dezeen-awards-2026-architecture-shortlist/" target="_blank" rel="noopener">Dezeen Awards 2026 Architecture Shortlist Announced</a></h3>
+      <p>Dezeen Awards 2026 revealed 152 shortlisted projects across its 19 architecture categories, submitted by studios from 36 countries including China, Finland, Kuwait, Portugal, Thailand and Uruguay. An international judging panel will now select category winners.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ArchDaily</span><span class="date">2026</span></div>
+      <h3><a href="https://www.archdaily.com/1038873/meet-the-15-winning-projects-of-the-2026-archdaily-building-of-the-year-awards" target="_blank" rel="noopener">Meet the 15 Winning Projects of the 2026 ArchDaily Building of the Year Awards</a></h3>
+      <p>More than 120,000 votes from over 100 countries decided this year's ArchDaily Building of the Year Awards, a record for the community-voted prize. Winners include a revitalized Portuguese canning factory, an Ethiopian memorial park and a wooden pavilion inspired by Bahraini heritage.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ArchDaily</span><span class="date">2026</span></div>
+      <h3><a href="https://www.archdaily.com/1036741/the-20-most-anticipated-projects-of-2026" target="_blank" rel="noopener">The 20 Most Anticipated Projects of 2026</a></h3>
+      <p>ArchDaily's annual preview rounds up 20 upcoming buildings and public spaces expected to shape architectural conversation through the year. The list spans museums, civic buildings and mixed-use developments from firms working across multiple continents.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Dezeen</span><span class="date">1 Sep 2026</span></div>
+      <h3><a href="https://www.dezeen.com/2026/09/01/eight-architecture-design-events-september-dezeen-events-guide-2026/" target="_blank" rel="noopener">Eight Architecture and Design Events in September from Dezeen Events Guide</a></h3>
+      <p>Dezeen's Events Guide rounded up eight architecture and design events taking place in September 2026, including the London Design Festival and Detroit Month of Design. The guide highlights gatherings for designers and architects across multiple countries.</p>
+    </div>
+  </section>
+
+  <!-- TECH -->
+  <section class="tab-panel" id="tech-panel">
+    <div class="section-title">Construction Tech</div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Autodesk</span><span class="date">2026</span></div>
+      <h3><a href="https://www.autodesk.com/blogs/construction/2026-ai-trends-25-experts-share-insights/" target="_blank" rel="noopener">2026 AI Construction Trends: 25+ Experts Share Insights</a></h3>
+      <p>Autodesk's Digital Builder blog gathered insights from more than 25 industry experts on how AI will reshape construction in 2026, from predictive safety analytics built on 4D BIM data to automated clash detection. Contributors point to AI moving from the back office into the field as a defining shift.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Autodesk</span><span class="date">2026</span></div>
+      <h3><a href="https://adsknews.autodesk.com/en/news/autodesk-forma-ai-aec-connected-workflows-2026/" target="_blank" rel="noopener">How Autodesk Forma and AI Are Advancing a More Connected Future for AEC</a></h3>
+      <p>Autodesk detailed how its Forma platform and AI tools are enabling cloud-connected workflows across planning, design and construction, replacing file-based handoffs with continuous project data. The company says the approach lets AEC teams build on prior work rather than reworking it at each project stage.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Procore</span><span class="date">2026</span></div>
+      <h3><a href="https://www.procore.com/library/voices/2026-construction-tech-trends" target="_blank" rel="noopener">5 Construction Tech Trends in 2026 That Will Drive True Transformation</a></h3>
+      <p>Procore's 2026 outlook highlights the convergence of AI, digital twins and BIM as central to construction technology this year, alongside growing use of drones, 3D scanning and robotics. The report frames real-time, field-driven planning as a defining shift for contractors.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction Dive</span><span class="date">2026</span></div>
+      <h3><a href="https://www.constructiondive.com/news/data-centers-construction-2026-trends/810016/" target="_blank" rel="noopener">Breaking Down the Data Center Opportunity for Builders in 2026</a></h3>
+      <p>Construction Dive examined the scale of the data center construction opportunity for builders in 2026, noting leasable power capacity fell to 1.4% in the first half of the year even as under-construction capacity surged 25%. The piece frames data centers as one of the sector's fastest-growing segments.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Autodesk</span><span class="date">2026</span></div>
+      <h3><a href="https://adsknews.autodesk.com/en/news/autodesk-design-and-make-intelligence/" target="_blank" rel="noopener">Autodesk Brings Design and Make Intelligence to the Built Environment with Forma Building Design</a></h3>
+      <p>Autodesk announced new Forma Building Design capabilities and deeper cloud connections with Revit, aimed at bringing "design and make intelligence" to AEC workflows. The update is part of Autodesk's push to connect design and construction data across the building lifecycle.</p>
+    </div>
+  </section>
+
+  <!-- ARCHIVE -->
+  <section class="tab-panel" id="archive-panel">
+    <div class="section-title">Archive</div>
+    <div class="archive-status" id="archive-status">Loading past editions&hellip;</div>
+    <div class="archive-list" id="archive-list"></div>
+  </section>
+
+  <div class="refresh-wrap">
+    <button class="refresh-btn" onclick="sendPrompt('Refresh my construction news dashboard with the latest stories from credible sources and update the artifact')">Refresh Latest Stories</button>
   </div>
 
-  <section class="category active" id="india">
-    <h2>India Construction</h2>
-
-    <div class="card">
-      <span class="badge">Business Standard</span><span class="date">21 September 2026</span>
-      <h3><a href="https://www.business-standard.com/markets/capital-market-news/dilip-buildcon-divests-stake-in-ten-solar-projects-to-alpha-alternatives-fund-advisors-126092100655_1.html" target="_blank" rel="noopener">Dilip Buildcon divests stake in ten solar projects to Alpha Alternatives Fund Advisors</a></h3>
-      <p>Dilip Buildcon has sold its stake in ten solar projects worth roughly Rs 6,263 crore to Alpha Alternatives Fund Advisors LLP. The portfolio covers about 1,363 MW (AC) of grid-connected solar capacity across 163 locations in Madhya Pradesh.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Business Standard</span><span class="date">21 September 2026</span>
-      <h3><a href="https://www.business-standard.com/markets/capital-market-news/jindal-supreme-india-ends-with-181-07-times-subscription-126092100581_1.html" target="_blank" rel="noopener">Jindal Supreme (India) IPO ends with 181.07 times subscription</a></h3>
-      <p>Jindal Supreme (India), a maker of steel pipes and tubes for water supply, infrastructure, roads and bridges, closed its IPO with bidding for shares oversubscribed 181.07 times after the offer ran from 16 to 18 September. Strong demand reflects continued investor appetite for construction-linked capital market plays.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Construction World</span><span class="date">2026</span>
-      <h3><a href="https://www.constructionworld.in/policy-updates-and-economic-news/top-10-mega-infrastructure-projects-in-india--2026-/92182" target="_blank" rel="noopener">Top 10 mega infrastructure projects in India (2026)</a></h3>
-      <p>Construction World rounds up the largest infrastructure projects underway in India for 2026, spanning expressways, bullet trains, smart cities and industrial corridors. The Mumbai&ndash;Ahmedabad High-Speed Rail, built with Japanese Shinkansen technology, anchors the list as India's first bullet train corridor.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Construction World</span><span class="date">2026</span>
-      <h3><a href="https://www.constructionworld.in/transport-infrastructure/metro-rail-and-railways-infrastructure/ircon-wins-rs.12-bn-railway-contract/54846" target="_blank" rel="noopener">IRCON wins Rs 12 billion railway contract</a></h3>
-      <p>State-owned IRCON International has secured a railway infrastructure contract worth approximately Rs 12 billion. The award adds to IRCON's expanding pipeline of rail and transport infrastructure projects across India.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Construction World</span><span class="date">2025-26</span>
-      <h3><a href="https://www.constructionworld.in/policy-updates-and-economic-news/dda-approves-rs-87.2-billion-budget-for-2025-26/72615" target="_blank" rel="noopener">DDA approves Rs 87.2 billion budget for 2025-26</a></h3>
-      <p>The Delhi Development Authority has approved an Rs 87.2 billion capital budget to fund new roads, infrastructure works and park upgrades across the capital. The allocation reflects continued government investment in city-level construction programs.</p>
-    </div>
-  </section>
-
-  <section class="category" id="global">
-    <h2>Global Construction</h2>
-
-    <div class="card">
-      <span class="badge">ENR</span><span class="date">21 September 2026</span>
-      <h3><a href="https://www.enr.com/articles/63662-construction-economics-for-september-21-2026" target="_blank" rel="noopener">Construction Economics for September 21, 2026</a></h3>
-      <p>ENR's latest construction economics update tracks material costs, labor pricing and spending trends as the industry navigates persistent inflation. Nonresidential construction spending excluding data centers has fallen to its lowest level since September 2023.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Global Construction Review</span><span class="date">2026</span>
-      <h3><a href="https://www.globalconstructionreview.com/2026-global-cost-outlook-harder-conditions-than-weve-seen-for-some-time/" target="_blank" rel="noopener">2026 global cost outlook: "Harder conditions than we've seen for some time"</a></h3>
-      <p>Consultant Currie &amp; Brown forecasts global construction costs will rise 2.4% in 2026, a figure masking wide regional variation driven by trade wars, climate events, conflict and labour shortages. Escalation projections range from near-flat in Hong Kong to as high as 12% in Japan and 3.6% in the UK.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Construction Dive</span><span class="date">2026</span>
-      <h3><a href="https://www.constructiondive.com/news/5-construction-trends-2026/808904/" target="_blank" rel="noopener">5 construction trends to watch in 2026</a></h3>
-      <p>Construction Dive outlines five trends shaping the industry this year, including data centers keeping contractors busy even as activity softens in other segments. Surging steel costs and longer lead times are pushing some data center developers to consider alternatives.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">ENR</span><span class="date">2026</span>
-      <h3><a href="https://www.enr.com/articles/62169-abc-construction-industry-to-face-real-risks-in-2026" target="_blank" rel="noopener">ABC: Construction industry to face "real risks" in 2026</a></h3>
-      <p>Associated Builders and Contractors warns the industry faces real economic risks in 2026 amid persistent tariff pressure and material cost inflation. Prices for copper, lumber, switchgear and several derivative metal products have posted year-over-year increases of 10% or more since August 2025.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">ENR</span><span class="date">14 September 2026</span>
-      <h3><a href="https://www.enr.com/articles/63647-construction-economics-for-september-14-2026" target="_blank" rel="noopener">Construction Economics for September 14, 2026</a></h3>
-      <p>ENR's prior weekly economics release tracked movement in the Building Cost Index and Construction Cost Index heading into mid-September. The data offers a granular view of how materials and labor pricing shifted during the week.</p>
-    </div>
-  </section>
-
-  <section class="category" id="arch">
-    <h2>Architecture &amp; Design</h2>
-
-    <div class="card">
-      <span class="badge">Dezeen</span><span class="date">21 September 2026</span>
-      <h3><a href="https://www.dezeen.com/2026/09/21/dezeen-awards-2026-architecture-shortlist/" target="_blank" rel="noopener">Dezeen Awards 2026 architecture shortlist announced</a></h3>
-      <p>The Dezeen Awards 2026 architecture shortlist features 152 projects across 19 categories from studios in 36 countries. Shortlisted works include a rammed-earth country house in the UK, thatched-roof guesthouses in Ukraine, a perforated stone-clad mosque in Qatar and a university building in India modelled on stepped wells.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Dezeen</span><span class="date">21 September 2026</span>
-      <h3><a href="https://www.dezeen.com/2026/09/21/stand-out-projects-oslo-architecture-triennale/" target="_blank" rel="noopener">Five stand-out projects at the Oslo Architecture Triennale</a></h3>
-      <p>The ninth Oslo Architecture Triennale runs from 17 September to 1 October at Oslo's Sofienberg Church under the theme "What If Nature Comes First?" Many featured projects champion the reuse of natural materials and locally sourced construction methods.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">ArchDaily</span><span class="date">2026</span>
-      <h3><a href="https://www.archdaily.com/1036741/the-20-most-anticipated-projects-of-2026" target="_blank" rel="noopener">The 20 most anticipated projects of 2026</a></h3>
-      <p>ArchDaily rounds up 20 major architecture projects expected to open or reach milestones in 2026 worldwide. The list spans cultural, civic and commercial buildings from leading global practices, highlighting design ambition despite a challenging cost environment.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">ArchDaily</span><span class="date">2026</span>
-      <h3><a href="https://www.archdaily.com/1038873/meet-the-15-winning-projects-of-the-2026-archdaily-building-of-the-year-awards" target="_blank" rel="noopener">Meet the 15 winning projects of the 2026 ArchDaily Building of the Year Awards</a></h3>
-      <p>The 2026 ArchDaily Building of the Year Awards drew over 120,000 votes from more than 100 countries, with the 15 winners representing 14 nations including Brazil, India, Japan and Germany. Winners were selected through a combination of public voting and expert jury review.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Architectural Review</span><span class="date">September 2026</span>
-      <h3><a href="https://www.architectural-review.com/digital-edition/september-2026-united-states" target="_blank" rel="noopener">September 2026: United States</a></h3>
-      <p>The Architectural Review's September 2026 digital edition focuses on architecture in the United States, examining current design practice and notable projects across the country. The issue is part of the publication's ongoing regional coverage series.</p>
-    </div>
-  </section>
-
-  <section class="category" id="tech">
-    <h2>Construction Tech</h2>
-
-    <div class="card">
-      <span class="badge">Autodesk</span><span class="date">2026</span>
-      <h3><a href="https://www.autodesk.com/blogs/construction/2026-ai-trends-25-experts-share-insights/" target="_blank" rel="noopener">2026 AI construction trends: 25+ experts share insights</a></h3>
-      <p>Autodesk's Digital Builder gathered insights from more than 25 industry experts on how AI is reshaping construction operations in 2026. Experts point to a strong convergence of BIM, digital twins and AI happening faster than expected.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Procore</span><span class="date">2026</span>
-      <h3><a href="https://www.procore.com/library/voices/2026-construction-tech-trends" target="_blank" rel="noopener">5 construction tech trends in 2026 that will drive true transformation</a></h3>
-      <p>Procore identifies five technology trends set to reshape construction delivery in 2026, including robotics entering an accessible, task-specific "power tool" phase. AI adoption continues at a slow, steady pace as major contech providers build it into existing product offerings.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">ENR</span><span class="date">2026</span>
-      <h3><a href="https://www.enr.com/articles/61541-what-does-constructions-ai-powered-future-look-like" target="_blank" rel="noopener">What does construction's AI-powered future look like?</a></h3>
-      <p>ENR examines how AI is expected to automate a greater share of manual tasks across the AECO sector, particularly in BIM model development, scan-to-BIM processes and clash detection. AI-powered vision-based safety systems can now flag fall hazards and equipment proximity risks in real time.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Construction Dive</span><span class="date">2026</span>
-      <h3><a href="https://www.constructiondive.com/news/data-centers-construction-2026-trends/810016/" target="_blank" rel="noopener">Breaking down the data center opportunity for builders in 2026</a></h3>
-      <p>Construction Dive examines the surging demand for data center construction in 2026, driven by AI infrastructure buildout. The piece outlines the opportunities and cost challenges contractors face entering this fast-growing project category.</p>
-    </div>
-
-    <div class="card">
-      <span class="badge">Construction Dive</span><span class="date">2026</span>
-      <h3><a href="https://www.constructiondive.com/news/artificial-inteligence-digital-twins-bim-mccarthy-construction/732463/" target="_blank" rel="noopener">AI, digital twins and BIM to converge: McCarthy tech expert</a></h3>
-      <p>A technology expert at McCarthy Building Companies describes how AI, digital twins and BIM are converging rapidly across the industry. Digital twins are becoming mainstream by linking BIM with real-time schedule, cost and field progress data for better risk mitigation.</p>
-    </div>
-  </section>
-
-  <section class="category" id="archive">
-    <h2>Archive</h2>
-    <div id="archive-list">Loading archive&hellip;</div>
-    <span class="backtotop"><a href="#top">&uarr; Back to top</a></span>
-  </section>
-
-  <footer class="policy">
-    <strong>Credibility Policy:</strong> Every story on this dashboard is sourced exclusively from verified tier-1 outlets &mdash; Construction World, Business Standard, Infrastructure Today, PIB (India); ENR, Global Construction Review, Construction Dive, BD+C (Global); ArchDaily, Dezeen, The Architectural Review, Wallpaper* (Architecture &amp; Design); ENR, Autodesk, Procore, Construction Dive, BD+C (Construction Tech). No content is fabricated or paraphrased from unverified sources.
-  </footer>
 </main>
 
+<footer class="policy">
+  Credibility Policy: This dashboard curates stories exclusively from tier-1, verified sources &mdash; including Construction World, Business Standard, Infrastructure Today, PIB, ENR, Global Construction Review, Construction Dive, BD+C, ArchDaily, Dezeen, Architectural Review, Wallpaper*, Autodesk and Procore. No content is fabricated; every headline links to its original article. Compiled for The CODE Podcast by Rishabh Aggarwal.
+</footer>
+
 <script>
-  var tabs = document.querySelectorAll('nav.tabs button');
-  var sections = document.querySelectorAll('section.category');
-  tabs.forEach(function(btn){
+  var tabButtons = document.querySelectorAll('.tab-btn');
+  var panels = {
+    india: document.getElementById('india-panel'),
+    global: document.getElementById('global-panel'),
+    architecture: document.getElementById('architecture-panel'),
+    tech: document.getElementById('tech-panel'),
+    archive: document.getElementById('archive-panel')
+  };
+
+  tabButtons.forEach(function(btn){
     btn.addEventListener('click', function(){
-      tabs.forEach(function(b){ b.classList.remove('active'); });
-      sections.forEach(function(s){ s.classList.remove('active'); });
+      tabButtons.forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).classList.add('active');
-      if(btn.dataset.tab === 'archive'){ loadArchive(); }
+      Object.keys(panels).forEach(function(key){ panels[key].classList.remove('active'); });
+      panels[btn.getAttribute('data-tab')].classList.add('active');
+      if(btn.getAttribute('data-tab') === 'archive'){
+        loadArchive();
+      }
     });
   });
-
-  document.getElementById('metabar').innerHTML =
-    'Monday, 21 September 2026 <span>&middot;</span> Last updated: 21 September 2026 &middot; 18:45 IST <span>&middot;</span> 20 stories';
 
   var archiveLoaded = false;
   function loadArchive(){
     if(archiveLoaded) return;
+    archiveLoaded = true;
+    var statusEl = document.getElementById('archive-status');
+    var listEl = document.getElementById('archive-list');
     fetch('https://api.github.com/repos/buildmatepodcast/construction-news/contents/archive')
-      .then(function(res){ return res.json(); })
+      .then(function(res){
+        if(!res.ok){ throw new Error('Archive not reachable (status ' + res.status + ')'); }
+        return res.json();
+      })
       .then(function(files){
-        var list = document.getElementById('archive-list');
         if(!Array.isArray(files) || files.length === 0){
-          list.innerHTML = '<p style="font-family:Arial,sans-serif;color:#888;">No archived editions found yet.</p>';
+          statusEl.textContent = 'No past editions found yet.';
           return;
         }
-        list.innerHTML = '';
         files
-          .filter(function(f){ return f.name.endsWith('.html'); })
+          .filter(function(f){ return f.name && f.name.endsWith('.html'); })
           .sort(function(a,b){ return b.name.localeCompare(a.name); })
           .forEach(function(f){
             var a = document.createElement('a');
-            a.href = 'https://buildmatepodcast.github.io/construction-news/archive/' + f.name;
+            a.href = f.html_url || f.download_url || '#';
             a.target = '_blank';
             a.rel = 'noopener';
             a.textContent = f.name.replace('.html','').replace(/-/g,' ');
-            list.appendChild(a);
+            listEl.appendChild(a);
           });
-        archiveLoaded = true;
+        statusEl.textContent = files.length + ' past edition(s) found.';
       })
-      .catch(function(){
-        document.getElementById('archive-list').innerHTML =
-          '<p style="font-family:Arial,sans-serif;color:#888;">Archive could not be loaded right now.</p>';
+      .catch(function(err){
+        statusEl.textContent = 'Archive is not yet published, or could not be reached (' + err.message + '). Check back after the site is live on GitHub Pages.';
       });
   }
-
-  function sendPrompt(text) {
-    if (window.sendPrompt && window.sendPrompt !== sendPrompt) {
-      window.sendPrompt(text);
-    } else {
-      console.log('sendPrompt:', text);
-    }
-  }
 </script>
+
 </body>
 </html>
