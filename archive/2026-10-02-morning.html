@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construction &amp; Design Intelligence</title>
+<style>
+  :root{
+    --gold:#b8962e;
+    --dark:#111111;
+    --bg:#f7f5f0;
+    --card:#ffffff;
+    --text:#222222;
+    --muted:#6b6b6b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:Georgia,'Times New Roman',serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  header.masthead{
+    background:var(--dark);
+    color:#fff;
+    text-align:center;
+    padding:28px 16px 20px;
+    border-bottom:4px solid var(--gold);
+  }
+  header.masthead h1{
+    margin:0;
+    font-size:2.4rem;
+    letter-spacing:1px;
+    color:#fff;
+    font-weight:700;
+  }
+  header.masthead .tagline{
+    color:var(--gold);
+    font-family:Arial,sans-serif;
+    font-size:0.85rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-top:8px;
+  }
+  .meta-bar{
+    background:#1c1c1c;
+    color:#ccc;
+    font-family:Arial,sans-serif;
+    font-size:0.8rem;
+    text-align:center;
+    padding:8px 12px;
+    border-bottom:1px solid #333;
+  }
+  .meta-bar span{margin:0 10px;}
+  nav.tabs{
+    position:sticky;
+    top:0;
+    z-index:50;
+    display:flex;
+    justify-content:center;
+    gap:4px;
+    background:#fff;
+    border-bottom:2px solid var(--gold);
+    padding:10px 8px;
+    flex-wrap:wrap;
+  }
+  nav.tabs button{
+    font-family:Arial,sans-serif;
+    font-size:0.85rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:none;
+    border:none;
+    padding:10px 16px;
+    cursor:pointer;
+    color:var(--dark);
+    border-bottom:3px solid transparent;
+  }
+  nav.tabs button.active{
+    color:var(--gold);
+    border-bottom:3px solid var(--gold);
+  }
+  main{
+    max-width:1000px;
+    margin:0 auto;
+    padding:24px 16px 60px;
+  }
+  .section-title{
+    font-family:Arial,sans-serif;
+    font-size:1.3rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    border-bottom:2px solid var(--dark);
+    padding-bottom:8px;
+    margin-bottom:20px;
+    color:var(--dark);
+  }
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .card{
+    background:var(--card);
+    border-left:5px solid var(--gold);
+    padding:16px 20px;
+    margin-bottom:16px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  }
+  .card .row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:8px;
+    flex-wrap:wrap;
+  }
+  .badge{
+    background:var(--dark);
+    color:var(--gold);
+    font-family:Arial,sans-serif;
+    font-size:0.7rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    padding:3px 10px;
+    border-radius:2px;
+  }
+  .date{
+    font-family:Arial,sans-serif;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .card h3{
+    margin:6px 0 8px;
+    font-size:1.15rem;
+    line-height:1.35;
+  }
+  .card h3 a{
+    color:var(--dark);
+    text-decoration:none;
+  }
+  .card h3 a:hover{
+    color:var(--gold);
+    text-decoration:underline;
+  }
+  .card p{
+    margin:0;
+    font-size:0.95rem;
+    line-height:1.5;
+    color:#333;
+  }
+  #archive-panel .archive-list{
+    font-family:Arial,sans-serif;
+    font-size:0.9rem;
+  }
+  #archive-panel .archive-list a{
+    display:block;
+    padding:10px 14px;
+    margin-bottom:8px;
+    background:#fff;
+    border-left:5px solid var(--gold);
+    color:var(--dark);
+    text-decoration:none;
+  }
+  #archive-panel .archive-list a:hover{
+    background:#f0ead9;
+  }
+  .archive-status{
+    font-family:Arial,sans-serif;
+    font-size:0.85rem;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+  .refresh-wrap{
+    text-align:center;
+    margin:30px 0 10px;
+  }
+  .refresh-btn{
+    font-family:Arial,sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:0.8rem;
+    background:var(--dark);
+    color:var(--gold);
+    border:2px solid var(--gold);
+    padding:12px 28px;
+    cursor:pointer;
+    border-radius:3px;
+  }
+  .refresh-btn:hover{
+    background:var(--gold);
+    color:var(--dark);
+  }
+  footer.policy{
+    font-family:Arial,sans-serif;
+    font-size:0.75rem;
+    color:var(--muted);
+    text-align:center;
+    max-width:800px;
+    margin:40px auto 0;
+    padding:16px;
+    border-top:1px solid #ddd;
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+
+<div style="background:#b8962e;color:white;text-align:center;padding:8px;font-family:Arial,sans-serif;font-size:0.78rem;font-weight:700;">
+  MORNING EDITION &mdash; 2 October 2026 &nbsp;|&nbsp;
+  <a href="https://buildmatepodcast.github.io/construction-news" style="color:white;">View Latest Edition &rarr;</a>
+</div>
+
+<header class="masthead" id="top">
+  <h1>Construction &amp; Design Intelligence</h1>
+  <div class="tagline">India &amp; Global · Tier-1 Sources Only · Powered by The CODE Podcast</div>
+</header>
+
+<div class="meta-bar">
+  <span>2 October 2026</span>
+  <span>Last updated: 2 October 2026 · Morning IST</span>
+  <span>20 stories</span>
+</div>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="india">India Construction</button>
+  <button class="tab-btn" data-tab="global">Global Construction</button>
+  <button class="tab-btn" data-tab="architecture">Architecture &amp; Design</button>
+  <button class="tab-btn" data-tab="tech">Construction Tech</button>
+  <button class="tab-btn" data-tab="archive">Archive</button>
+</nav>
+
+<main>
+
+  <!-- INDIA -->
+  <section class="tab-panel active" id="india-panel">
+    <div class="section-title">India Construction</div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Business Standard</span><span class="date">2 Oct 2026</span></div>
+      <h3><a href="https://www.business-standard.com/amp/content/press-releases-ani/elevate-infracon-to-invest-100-crore-this-financial-year-in-ongoing-projects-including-elevate-vanya-in-dehradun-126100200032_1.html" target="_blank" rel="noopener">ELEVATE Infracon to Invest ₹100 Crore This Financial Year</a></h3>
+      <p>ELEVATE Infracon plans to invest ₹100 crore in the current financial year toward completing ongoing projects, including Elevate Vanya in Dehradun. The investment is part of a broader plan to deploy ₹400 crore over the next three years as the developer expands its regional portfolio.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction World</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://www.constructionworld.in/policy-updates-and-economic-news/signature-global-plans-194-acre-luxury-farmhouse-project/98059" target="_blank" rel="noopener">Signature Global Plans 194-Acre Luxury Farmhouse Project</a></h3>
+      <p>Signature Global plans to develop a 194.22-acre ultra-luxury farmhouse villa destination in Gurugram West, marking the company's entry into the farmhouse segment. The project adds to the developer's expanding presence in the National Capital Region.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction World</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://www.constructionworld.in/transport-infrastructure/highways-and-roads-infrastructure/arvind-smartspaces-adds-new-high-rise-residential-project-in-bengaluru/98060" target="_blank" rel="noopener">Arvind SmartSpaces Adds New High-Rise Residential Project in Bengaluru</a></h3>
+      <p>Arvind SmartSpaces has acquired a new residential high-rise project on Sarjapur Road in Bengaluru through a joint development arrangement, with an estimated saleable area of nearly 360,000 square feet. The project carries a top-line revenue potential of about Rs 4.7 billion.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction World</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://www.constructionworld.in/latest-construction-news/real-estate-news/alliance-city-announces-three-residential-projects-in-mumbai/98004" target="_blank" rel="noopener">Alliance City Announces Three Residential Projects in Mumbai</a></h3>
+      <p>Alliance City Developers Realtors has announced three upcoming residential developments in Mumbai, expanding its presence in Mulund West and Vile Parle East while entering the Sion East market for the first time. The announcement marks a broader push into the Mumbai Metropolitan Region.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction World</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://www.constructionworld.in/energy-infrastructure/power-and-renewable-energy/vikram-solar-secures-400-mw-module-order-in-maharashtra/98044" target="_blank" rel="noopener">Vikram Solar Secures 400 MW Module Order in Maharashtra</a></h3>
+      <p>Vikram Solar has secured a 400 MW module supply order from an EPC player for decentralised solar projects across Maharashtra. The order strengthens the company's position in renewable energy infrastructure supporting agricultural feeder solarisation.</p>
+    </div>
+  </section>
+
+  <!-- GLOBAL -->
+  <section class="tab-panel" id="global-panel">
+    <div class="section-title">Global Construction</div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Construction Dive</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://www.constructiondive.com/news/construction-starts-megaprojects-october-dodge/806230/" target="_blank" rel="noopener">Construction Starts Surge 21%, Led by Multibillion-Dollar Projects</a></h3>
+      <p>Total U.S. construction starts jumped 21.1% in October to a seasonally adjusted annual rate of $1.53 trillion, with 10 projects valued at $1 billion or more breaking ground. Billion-dollar manufacturing and data center projects drove the spike, including the $15.1 billion Calcasieu Pass LNG terminal in Louisiana.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ENR</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://www.enr.com/articles/63746-data-center-construction-spending-accelerates-at-149-annualized-pace" target="_blank" rel="noopener">Data Center Construction Spending Accelerates at 149% Annualized Pace</a></h3>
+      <p>ENR reports data center construction spending jumped 7.5% in August and is up more than 73% from a year earlier, as the sector continues to outpace the broader nonresidential construction market. The surge is helping offset softness in other commercial building categories.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ENR</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://enr.com/articles/63720-oracle-invokes-force-majeure-as-new-mexico-project-jupiter-power-work-faces-hurdles" target="_blank" rel="noopener">Oracle Invokes Force Majeure as New Mexico Project Jupiter Power Work Faces Hurdles</a></h3>
+      <p>Oracle has invoked force majeure provisions as power infrastructure work tied to its New Mexico "Project Jupiter" data center development runs into delays. The dispute highlights the strain grid-connection timelines are placing on large-scale data center construction nationwide.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ENR</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://enr.com/articles/63742-gao-report-finds-too-lengthy-a-review-process-for-hazard-mitigation-projects-across-us" target="_blank" rel="noopener">GAO Report Finds Too Lengthy a Review Process for Hazard Mitigation Projects Across US</a></h3>
+      <p>A U.S. Government Accountability Office report found that federal review timelines for hazard mitigation construction projects are excessively long, slowing resilience work nationwide. The report calls for streamlining approval processes to speed up disaster-mitigation infrastructure delivery.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ENR</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://enr.com/blogs/13-critical-path/post/63717-safety-innovation-central-to-success-of-winners-in-enr-global-competition" target="_blank" rel="noopener">Safety Innovation Central to Success of Winners in ENR Global Competition</a></h3>
+      <p>ENR's Global Best Projects competition reviewed entries and selected 32 winning construction projects across 21 countries on six continents. Judges highlighted safety innovation as a defining factor separating winning projects from the rest of the field.</p>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section class="tab-panel" id="architecture-panel">
+    <div class="section-title">Architecture &amp; Design</div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ArchDaily</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://www.archdaily.com/1185982/yuehai-culture-and-sports-center-meng-yan-urbanus" target="_blank" rel="noopener">Yuehai Culture and Sports Center / MENG YAN</a></h3>
+      <p>ArchDaily profiled the newly completed Yuehai Culture and Sports Center, designed by MENG YAN of URBANUS. The project combines cultural and athletic facilities within a single civic complex.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ArchDaily</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://archdaily.com/1185977/latin-america-in-focus-this-month-in-architecture-inhabitation-memory-and-cultural-exchange" target="_blank" rel="noopener">Latin America in Focus: This Month in Architecture, Inhabitation, Memory, and Cultural Exchange</a></h3>
+      <p>ArchDaily's monthly Latin America roundup surveys recent architecture across the region, with a focus on themes of inhabitation, collective memory and cultural exchange. The feature compiles projects and essays from architects working across multiple Latin American countries.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ArchDaily</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://archdaily.com/1186117/fondation-beyelers-expansion-and-safdie-architects-carnegie-library-restoration-this-weeks-review" target="_blank" rel="noopener">Fondation Beyeler's Expansion and Safdie Architects' Carnegie Library Restoration: This Week's Review</a></h3>
+      <p>ArchDaily's weekly review covers Peter Zumthor's expansion of the Fondation Beyeler in Switzerland, which adds new exhibition buildings and opens parkland to visitors, alongside Safdie Architects' restoration of a historic Carnegie Library. Both projects were among the week's most notable architecture stories.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ArchDaily</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://archdaily.com/1186064/mitte-oblique-garden-rad-plus-ar-research-artistic-design-plus-architecture" target="_blank" rel="noopener">Mitte Oblique Garden / RAD+ar</a></h3>
+      <p>ArchDaily featured Mitte Oblique Garden, a project by RAD+ar (Research Artistic Design + Architecture) that integrates landscaped garden space with angled architectural forms. The project reflects the firm's continued focus on blending built form with natural surroundings.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ArchDaily</span><span class="date">Oct 2026</span></div>
+      <h3><a href="https://archdaily.com/1186138/casa-cinco-7-qbo3-arquitectos" target="_blank" rel="noopener">Casa Cinco 7 / QBO3 Arquitectos</a></h3>
+      <p>ArchDaily published a feature on Casa Cinco 7, a residential project designed by QBO3 Arquitectos. The project is part of ArchDaily's ongoing coverage of contemporary residential architecture in Latin America.</p>
+    </div>
+  </section>
+
+  <!-- TECH -->
+  <section class="tab-panel" id="tech-panel">
+    <div class="section-title">Construction Tech</div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Autodesk</span><span class="date">2026</span></div>
+      <h3><a href="https://www.autodesk.com/blogs/construction/2026-ai-trends-25-experts-share-insights/" target="_blank" rel="noopener">2026 AI Construction Trends: 25+ Experts Share Insights</a></h3>
+      <p>Autodesk's Digital Builder blog gathered insights from more than 25 industry experts on how AI is reshaping construction in 2026, including generative design for optioneering and AI-driven safety monitoring using jobsite cameras and drones. Contributors point to AI moving from planning into day-to-day field operations.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Autodesk</span><span class="date">2026</span></div>
+      <h3><a href="https://www.autodesk.com/blogs/construction/2026-construction-trends-25-experts-share-insights/" target="_blank" rel="noopener">2026 Construction Trends: 25+ Experts Share Insights</a></h3>
+      <p>Autodesk's companion trends report surveys more than 25 construction leaders on the broader forces shaping the industry in 2026, beyond AI alone. The report touches on workforce shifts, digital twins and evolving project delivery models.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">ENR</span><span class="date">2026</span></div>
+      <h3><a href="https://www.enr.com/articles/61541-what-does-constructions-ai-powered-future-look-like" target="_blank" rel="noopener">What Does Construction's AI-Powered Future Look Like?</a></h3>
+      <p>ENR examines how artificial intelligence is being deployed across design, planning and field operations in construction, from predictive scheduling to automated quality checks. The piece frames 2026 as a turning point as AI tools move from pilot programs to standard practice.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Procore</span><span class="date">2026</span></div>
+      <h3><a href="https://www.procore.com/library/voices/2026-construction-tech-trends" target="_blank" rel="noopener">5 Construction Tech Trends in 2026 That Will Drive True Transformation</a></h3>
+      <p>Procore's 2026 outlook highlights the convergence of AI, digital twins and BIM as central to construction technology this year, alongside growing use of drones, 3D scanning and task-specific robotics. The report frames real-time, field-driven data as the defining shift for contractors.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="badge">Autodesk</span><span class="date">2026</span></div>
+      <h3><a href="https://adsknews.autodesk.com/en/news/autodesk-doubles-down-on-the-future-of-bim/" target="_blank" rel="noopener">Autodesk Doubles Down on the Future of BIM with New Data Connections and AI Capabilities</a></h3>
+      <p>Autodesk announced new data connections and AI capabilities aimed at advancing Building Information Modeling workflows, including an AI assistant embedded directly in Revit. The company says the update lets teams navigate views and suggest model changes through natural-language prompts.</p>
+    </div>
+  </section>
+
+  <!-- ARCHIVE -->
+  <section class="tab-panel" id="archive-panel">
+    <div class="section-title">Archive</div>
+    <div class="archive-status" id="archive-status">Loading past editions&hellip;</div>
+    <div class="archive-list" id="archive-list"></div>
+  </section>
+
+  <div class="refresh-wrap">
+    <button class="refresh-btn" onclick="sendPrompt('Refresh my construction news dashboard with the latest stories from credible sources and update the artifact')">Refresh Latest Stories</button>
+  </div>
+
+</main>
+
+<footer class="policy">
+  Credibility Policy: This dashboard curates stories exclusively from tier-1, verified sources &mdash; including Construction World, Business Standard, Infrastructure Today, PIB, ENR, Global Construction Review, Construction Dive, BD+C, ArchDaily, Dezeen, Architectural Review, Wallpaper*, Autodesk and Procore. No content is fabricated; every headline links to its original article. Compiled for The CODE Podcast by Rishabh Aggarwal.
+</footer>
+
+<script>
+  var tabButtons = document.querySelectorAll('.tab-btn');
+  var panels = {
+    india: document.getElementById('india-panel'),
+    global: document.getElementById('global-panel'),
+    architecture: document.getElementById('architecture-panel'),
+    tech: document.getElementById('tech-panel'),
+    archive: document.getElementById('archive-panel')
+  };
+
+  tabButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabButtons.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      Object.keys(panels).forEach(function(key){ panels[key].classList.remove('active'); });
+      panels[btn.getAttribute('data-tab')].classList.add('active');
+      if(btn.getAttribute('data-tab') === 'archive'){
+        loadArchive();
+      }
+    });
+  });
+
+  var archiveLoaded = false;
+  function loadArchive(){
+    if(archiveLoaded) return;
+    archiveLoaded = true;
+    var statusEl = document.getElementById('archive-status');
+    var listEl = document.getElementById('archive-list');
+    fetch('https://api.github.com/repos/buildmatepodcast/construction-news/contents/archive')
+      .then(function(res){
+        if(!res.ok){ throw new Error('Archive not reachable (status ' + res.status + ')'); }
+        return res.json();
+      })
+      .then(function(files){
+        if(!Array.isArray(files) || files.length === 0){
+          statusEl.textContent = 'No past editions found yet.';
+          return;
+        }
+        files
+          .filter(function(f){ return f.name && f.name.endsWith('.html'); })
+          .sort(function(a,b){ return b.name.localeCompare(a.name); })
+          .forEach(function(f){
+            var a = document.createElement('a');
+            a.href = f.html_url || f.download_url || '#';
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.textContent = f.name.replace('.html','').replace(/-/g,' ');
+            listEl.appendChild(a);
+          });
+        statusEl.textContent = files.length + ' past edition(s) found.';
+      })
+      .catch(function(err){
+        statusEl.textContent = 'Archive is not yet published, or could not be reached (' + err.message + '). Check back after the site is live on GitHub Pages.';
+      });
+  }
+</script>
+
+</body>
+</html>
