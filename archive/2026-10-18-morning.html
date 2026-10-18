@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Construction Design News",
+  "schemaVersion": 1,
+  "description": "Live Construction & Design news dashboard for The CODE Podcast. Covers India Construction, Global Construction, Architecture & Design, and Construction Technology — sourced exclusively from tier-1 verified publications (ENR, Construction Dive, ArchDaily, Dezeen, Business Standard, Construction World India, etc.). Updated twice daily via scheduled task."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construction &amp; Design Intelligence | The CODE Podcast</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; color: #e0e0e0; font-family: 'Georgia', serif; }
+
+  /* MASTHEAD */
+  .masthead {
+    background: #111;
+    border-bottom: 3px solid #b8962e;
+    padding: 28px 20px 18px;
+    text-align: center;
+  }
+  .masthead h1 {
+    font-size: 2.4rem;
+    color: #b8962e;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .masthead .tagline {
+    font-size: 0.82rem;
+    color: #999;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .meta-bar {
+    background: #0d0d0d;
+    border-bottom: 1px solid #2a2a2a;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #888;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-family: Arial, sans-serif;
+  }
+  .meta-bar .story-count {
+    color: #b8962e;
+    font-weight: 700;
+  }
+  .refresh-btn {
+    background: #b8962e;
+    color: #111;
+    border: none;
+    padding: 5px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+  }
+  .refresh-btn:hover { background: #d4a93a; }
+
+  /* NAV TABS */
+  .nav-tabs {
+    background: #111;
+    border-bottom: 2px solid #b8962e;
+    display: flex;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    padding: 12px 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #888;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    font-family: Arial, sans-serif;
+  }
+  .nav-tab:hover { color: #b8962e; }
+  .nav-tab.active {
+    color: #b8962e;
+    border-bottom-color: #b8962e;
+    background: #181818;
+  }
+
+  /* CONTENT PANELS */
+  .panel { display: none; max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+  .panel.active { display: block; }
+
+  .section-header {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #b8962e;
+    border-bottom: 1px solid #2a2a2a;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  /* NEWS CARDS */
+  .news-card {
+    background: #1e1e1e;
+    border-left: 4px solid #b8962e;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    border-radius: 0 4px 4px 0;
+    transition: background 0.2s;
+  }
+  .news-card:hover { background: #242424; }
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .source-badge {
+    background: #2a2a2a;
+    color: #b8962e;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-family: Arial, sans-serif;
+  }
+  .card-date {
+    font-size: 0.68rem;
+    color: #666;
+    font-family: Arial, sans-serif;
+  }
+  .card-headline {
+    font-size: 1.05rem;
+    color: #e8e8e8;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 8px;
+    text-decoration: none;
+    display: block;
+  }
+  .card-headline:hover { color: #b8962e; }
+  .card-summary {
+    font-size: 0.88rem;
+    color: #aaa;
+    line-height: 1.6;
+  }
+
+  /* ARCHIVE PANEL */
+  .archive-intro {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-family: Arial, sans-serif;
+  }
+  .archive-loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+  }
+  .archive-list { list-style: none; }
+  .archive-item {
+    background: #1e1e1e;
+    border-left: 4px solid #b8962e;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    border-radius: 0 4px 4px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .archive-item a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .archive-item a:hover { color: #b8962e; }
+  .archive-item .archive-size {
+    font-size: 0.7rem;
+    color: #666;
+    font-family: Arial, sans-serif;
+  }
+  .archive-error {
+    background: #1e1e1e;
+    border-left: 4px solid #555;
+    padding: 16px 18px;
+    color: #888;
+    font-size: 0.85rem;
+    font-family: Arial, sans-serif;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* CREDIBILITY NOTE */
+  .credibility-note {
+    text-align: center;
+    padding: 24px 20px;
+    border-top: 1px solid #2a2a2a;
+    margin-top: 40px;
+    font-size: 0.72rem;
+    color: #555;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .credibility-note strong { color: #b8962e; }
+
+  /* BACK TO TOP */
+  .back-to-top {
+    display: block;
+    text-align: center;
+    margin: 20px auto 0;
+    color: #b8962e;
+    font-size: 0.75rem;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    background: none;
+    border: 1px solid #b8962e;
+    padding: 6px 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .back-to-top:hover { background: #b8962e; color: #111; }
+</style>
+</head>
+<body>
+<div style="background:#b8962e;color:white;text-align:center;padding:8px;font-family:Arial,sans-serif;font-size:0.78rem;font-weight:700;">
+  MORNING EDITION &mdash; 18 October 2026 &nbsp;|&nbsp;
+  <a href="https://buildmatepodcast.github.io/construction-news" style="color:white;">View Latest Edition &rarr;</a>
+</div>
+
+<!-- MASTHEAD -->
+<div class="masthead" id="top">
+  <h1>Construction &amp; Design Intelligence</h1>
+  <div class="tagline">India &amp; Global &nbsp;&middot;&nbsp; Tier-1 Sources Only &nbsp;&middot;&nbsp; Powered by The CODE Podcast</div>
+</div>
+
+<!-- META BAR -->
+<div class="meta-bar">
+  <span>Sunday, 18 October 2026 &nbsp;|&nbsp; <strong>Last updated:</strong> 18 October 2026 &middot; 12:33 IST</span>
+  <span class="story-count">20 Stories &middot; 4 Categories</span>
+  <button class="refresh-btn" onclick="sendPrompt('Refresh my construction news dashboard with the latest stories from credible sources and update the artifact')">&#8635; Refresh</button>
+</div>
+
+<!-- NAV TABS -->
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="showPanel('india', this)">&#127470;&#127475; India Construction</button>
+  <button class="nav-tab" onclick="showPanel('global', this)">&#127758; Global Construction</button>
+  <button class="nav-tab" onclick="showPanel('arch', this)">&#127963; Architecture &amp; Design</button>
+  <button class="nav-tab" onclick="showPanel('tech', this)">&#9881; Construction Tech</button>
+  <button class="nav-tab" onclick="showPanel('archive', this); loadArchive()">&#128193; Archive</button>
+</nav>
+
+<!-- ===================== INDIA CONSTRUCTION ===================== -->
+<div class="panel active" id="panel-india">
+  <p class="section-header">India Construction &amp; Infrastructure &middot; October 2026</p>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction World</span>
+      <span class="card-date">9 Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.constructionworld.in/energy-infrastructure/power-and-renewable-energy/karnataka-wins-award-for-highest-under-construction-wind-capacity/98863" target="_blank" rel="noopener">
+      Karnataka Wins Award for Highest Under-Construction Wind Capacity
+    </a>
+    <p class="card-summary">Karnataka received a national award for having India's highest under-construction wind power capacity, at 9 GW. The recognition was presented at Windergy India 2026, held at the Chennai Trade Centre on October 9.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction World</span>
+      <span class="card-date">Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.constructionworld.in/transport-infrastructure/highways-and-roads-infrastructure/nadda-reviews-rs.-551.03-bn-highway-projects-in-himachal/98858" target="_blank" rel="noopener">
+      Nadda Reviews &#8377;551.03 Billion Highway Projects in Himachal
+    </a>
+    <p class="card-summary">Union Minister JP Nadda reviewed major infrastructure projects in Himachal Pradesh, including highway schemes worth &#8377;551.03 billion. The review also covered the &#8377;156.24 billion Kishau Multipurpose Project.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction World</span>
+      <span class="card-date">Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.constructionworld.in/gold/latest-construction-news/real-estate-news/dlf-gic-to-develop-residential-space-in-central-delhi/25643" target="_blank" rel="noopener">
+      DLF-GIC to Develop Residential Space in Central Delhi
+    </a>
+    <p class="card-summary">DLF has entered a joint venture with Singapore's sovereign wealth fund GIC to develop 8 million sq ft of high-end residential towers at Central Delhi's Moti Nagar. The project carries revenue expectations of &#8377;120-150 billion.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction World</span>
+      <span class="card-date">Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.constructionworld.in/policy-updates-and-economic-news/nemetschek-explores-infrastructure-collaboration-with-morth/97993" target="_blank" rel="noopener">
+      Nemetschek Explores Infrastructure Collaboration with MoRTH
+    </a>
+    <p class="card-summary">The Nemetschek Group met with India's Union Minister for Road Transport and Highways to discuss the role of technology and digitalization in infrastructure delivery. The talks also covered how global engineering expertise could support India's infrastructure planning.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction World</span>
+      <span class="card-date">Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.constructionworld.in/transport-infrastructure/highways-and-roads-infrastructure/pune-nagar-road-traffic-crisis-exposes-project-gaps/98522" target="_blank" rel="noopener">
+      Pune Nagar Road Traffic Crisis Exposes Project Gaps
+    </a>
+    <p class="card-summary">Pune's Nagar Road corridor is facing severe congestion as construction of the Shastrinagar grade separator and flyover has reduced usable road space. The corridor carries more than 200,000 vehicles a day, exposing gaps in project planning.</p>
+  </div>
+
+  <button class="back-to-top" onclick="document.getElementById('top').scrollIntoView({behavior:'smooth'})">&#8679; Back to Top</button>
+</div>
+
+<!-- ===================== GLOBAL CONSTRUCTION ===================== -->
+<div class="panel" id="panel-global">
+  <p class="section-header">Global Construction Industry &middot; October 2026</p>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction Dive</span>
+      <span class="card-date">Sep/Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.constructiondive.com/news/contractors-backlog-jumped-september-profit-outlook-fell/832949/" target="_blank" rel="noopener">
+      Contractors' Backlog Jumped in September as Profit Outlook Fell
+    </a>
+    <p class="card-summary">Construction backlog increased for the second consecutive month in September, with total backlog jumping to 8.7 months. About 32% of contractors surveyed expect profit margins to decline over the next 12 months, up from 26% in July.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction Dive</span>
+      <span class="card-date">Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.constructiondive.com/news/constructions-winners-losers-drift-farther-apart/832780/" target="_blank" rel="noopener">
+      Construction's Winners and Losers Drift Farther Apart
+    </a>
+    <p class="card-summary">The gap between construction industry winners and losers is widening, with projects valued above $1 billion &mdash; many of them data centres &mdash; consuming the bulk of nonresidential construction spending. Smaller contractors are increasingly squeezed out of that growth.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction Dive</span>
+      <span class="card-date">Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.constructiondive.com/news/construction-prices-jumped-annually-september/833217/" target="_blank" rel="noopener">
+      Iran Conflict Pushes Construction Prices to Near 4-Year High
+    </a>
+    <p class="card-summary">Construction prices rose 11.2% year over year in September, driven by higher fuel costs and tariff impacts on key materials. Lead times for steel components have lengthened, making it harder for contractors to keep projects on schedule.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction Dive</span>
+      <span class="card-date">Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.constructiondive.com/news/3d-printing-giant-icon-raises-funding/833001/" target="_blank" rel="noopener">
+      3D-Printing Giant Icon Raises $200M
+    </a>
+    <p class="card-summary">Icon, maker of large 3D-printing construction robots, raised $200 million in a Series D round co-led by Baillie Gifford and BlackRock-managed funds. The funding will launch production of its Titan machine, capable of a 27-foot build height, at a new Austin, Texas facility.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Construction Dive</span>
+      <span class="card-date">Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.constructiondive.com/news/flintco-mortenson-jv-concrete-oklahoma-city-nba-arena/833271/" target="_blank" rel="noopener">
+      Flintco-Mortenson JV Begins Concrete Deck at $900M Oklahoma City NBA Arena
+    </a>
+    <p class="card-summary">The Flintco-Mortenson joint venture poured the first of more than 18 elevated concrete decks for the Oklahoma City Thunder's new Continental Coliseum arena. The $900 million venue will feature a 360-degree glass curtain wall and is targeting completion by 2028.</p>
+  </div>
+
+  <button class="back-to-top" onclick="document.getElementById('top').scrollIntoView({behavior:'smooth'})">&#8679; Back to Top</button>
+</div>
+
+<!-- ===================== ARCHITECTURE & DESIGN ===================== -->
+<div class="panel" id="panel-arch">
+  <p class="section-header">Architecture &amp; Design &middot; October 2026</p>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">ArchDaily</span>
+      <span class="card-date">15 Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.archdaily.com/1186944/lion-green-road-by-mary-duggan-architects-and-ruffarchitects-wins-riba-stirling-prize-2026" target="_blank" rel="noopener">
+      Lion Green Road Wins RIBA Stirling Prize 2026
+    </a>
+    <p class="card-summary">Lion Green Road, a 157-home development in Coulsdon, South London by Mary Duggan Architects and RUFFARCHITECTS for Croydon Council, won the RIBA Stirling Prize 2026. The award was announced at a ceremony at Old Billingsgate in London, marking the prize's 30th anniversary.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Dezeen</span>
+      <span class="card-date">15 Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://dezeen.com/2026/10/15/resonance-pavilion-tallinn-architecture-biennale" target="_blank" rel="noopener">
+      Resonance Pavilion Takes Centre Stage at Tallinn Architecture Biennale
+    </a>
+    <p class="card-summary">The 2026 Tallinn Architecture Biennale features a temporary central pavilion made of limestone and plywood, designed by Aru Ma-Architects. The structure was the winning entry of a competition held for the biennale's centrepiece pavilion.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">ArchDaily</span>
+      <span class="card-date">3 Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.archdaily.com/1186376/design-museum-gent-reopens-with-new-wing-by-carmody-groarke-and-atama" target="_blank" rel="noopener">
+      Design Museum Gent Reopens with New Wing by Carmody Groarke and ATAMA
+    </a>
+    <p class="card-summary">Belgium's largest design museum reopened on October 3 after a revamp led by Carmody Groarke with local firm ATAMA, adding a five-storey wing that is Belgium's tallest public timber-structured building. The facade uses more than 82,000 units of Gent Waste Brick, a lime-cured brick made from locally sourced municipal waste.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">ArchDaily</span>
+      <span class="card-date">2-17 Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.archdaily.com/1186204/amman-design-week-2026-returns-with-accumulations-exploring-the-layers-of-place-material-and-memory" target="_blank" rel="noopener">
+      Amman Design Week 2026 Returns with "Accumulations"
+    </a>
+    <p class="card-summary">Amman Design Week returned for its fourth edition after a six-year hiatus, running October 2-17 in Jordan under the theme "Accumulations." More than 220 designers took part across 50 venues, with new leadership under architects Sarah Hejazin and Bisher Tabbaa of FADAA.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Architectural Review</span>
+      <span class="card-date">Oct 2026</span>
+    </div>
+    <a class="card-headline" href="https://www.architectural-review.com/essays/letters-from-the-editor/ar-october-2026-ar-emerging" target="_blank" rel="noopener">
+      AR Emerging &mdash; The Architectural Review Issue 1535, October 2026
+    </a>
+    <p class="card-summary">The October 2026 issue of The Architectural Review is dedicated to its annual "AR Emerging" theme, spotlighting early-career architects and practices. The issue showcases a curated selection of emerging voices shaping contemporary architectural discourse.</p>
+  </div>
+
+  <button class="back-to-top" onclick="document.getElementById('top').scrollIntoView({behavior:'smooth'})">&#8679; Back to Top</button>
+</div>
+
+<!-- ===================== CONSTRUCTION TECH ===================== -->
+<div class="panel" id="panel-tech">
+  <p class="section-header">Construction Technology &amp; Innovation &middot; 2026</p>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Autodesk Digital Builder</span>
+      <span class="card-date">2026</span>
+    </div>
+    <a class="card-headline" href="https://www.autodesk.com/blogs/construction/2026-ai-trends-25-experts-share-insights/" target="_blank" rel="noopener">
+      2026 AI Construction Trends: 25+ Experts Share Insights
+    </a>
+    <p class="card-summary">Autodesk's Digital Builder blog gathers perspectives from more than 25 construction industry experts on where AI is heading in 2026, noting that just 32% of construction leaders say they've met or are close to meeting their AI goals. The piece outlines AI's shift from experimental pilots to a foundational layer of day-to-day operations.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">ENR</span>
+      <span class="card-date">2026</span>
+    </div>
+    <a class="card-headline" href="https://www.enr.com/articles/61541-what-does-constructions-ai-powered-future-look-like" target="_blank" rel="noopener">
+      What Does Construction's AI-Powered Future Look Like?
+    </a>
+    <p class="card-summary">ENR's exploration of AI's future in construction examines how predictive safety technologies &mdash; analyzing video feeds from CCTV, drones and wearables &mdash; are moving from pilot projects into production. The piece surveys robot-assisted construction and autonomous equipment becoming part of day-to-day project delivery.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Autodesk</span>
+      <span class="card-date">2026</span>
+    </div>
+    <a class="card-headline" href="https://adsknews.autodesk.com/en/news/autodesk-doubles-down-on-the-future-of-bim/" target="_blank" rel="noopener">
+      Autodesk Doubles Down on the Future of BIM with New Data Connections and AI Capabilities
+    </a>
+    <p class="card-summary">Autodesk announced new data-connection features and AI capabilities aimed at deepening its BIM offerings, enabling teams to link project information, decisions and context directly to the model. The update is positioned as a step toward AI systems that understand projects across planning, design, construction and operations.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">Autodesk</span>
+      <span class="card-date">2026</span>
+    </div>
+    <a class="card-headline" href="https://adsknews.autodesk.com/en/news/autodesk-forma-ai-aec-connected-workflows-2026/" target="_blank" rel="noopener">
+      How Autodesk Forma and AI Are Advancing a More Connected Future for AEC
+    </a>
+    <p class="card-summary">Autodesk is expanding its Forma industry cloud across more of the AEC lifecycle, adding Civil 3D as a Forma Connected Client and a Daily Log Agent that turns a superintendent's spoken update into a structured daily log. The rollout also brings Autodesk Assistant into Forma Site Design to answer natural-language questions about a project site.</p>
+  </div>
+
+  <div class="news-card">
+    <div class="card-meta">
+      <span class="source-badge">ENR</span>
+      <span class="card-date">2026</span>
+    </div>
+    <a class="card-headline" href="https://www.enr.com/articles/63682-motif-debuts-browser-based-bim-design-platform-that-uses-ai-for-skills-not-scripts" target="_blank" rel="noopener">
+      Motif Debuts Browser-Based BIM Design Platform That Uses AI for Skills, Not Scripts
+    </a>
+    <p class="card-summary">Startup Motif launched a browser-based BIM design platform built around AI-driven skills rather than scripting, aiming to lower the technical barrier for complex modeling tasks. The platform targets design teams looking for faster, more accessible ways to build and edit BIM models.</p>
+  </div>
+
+  <button class="back-to-top" onclick="document.getElementById('top').scrollIntoView({behavior:'smooth'})">&#8679; Back to Top</button>
+</div>
+
+<!-- ===================== ARCHIVE ===================== -->
+<div class="panel" id="panel-archive">
+  <p class="section-header">Edition Archive &middot; All Past Issues</p>
+  <p class="archive-intro">Previous editions are stored in the GitHub repository. Click any edition to read it in full.</p>
+  <div id="archive-container">
+    <div class="archive-loading" id="archive-loading">Loading archive from GitHub&hellip;</div>
+    <ul class="archive-list" id="archive-list" style="display:none;"></ul>
+    <div class="archive-error" id="archive-error" style="display:none;"></div>
+  </div>
+  <button class="back-to-top" style="margin-top:24px;" onclick="document.getElementById('top').scrollIntoView({behavior:'smooth'})">&#8679; Back to Top</button>
+</div>
+
+<!-- CREDIBILITY FOOTER -->
+<div class="credibility-note">
+  <strong>Credibility Policy:</strong> This dashboard sources exclusively from verified Tier-1 publications &mdash;
+  constructionworld.in, business-standard.com, pib.gov.in, infrastructuretoday.co.in, enr.com, globalconstructionreview.com,
+  constructiondive.com, bdcnetwork.com, archdaily.com, dezeen.com, architectural-review.com, wallpaper.com, autodesk.com, procore.com.<br>
+  No aggregators, blogs, or press release farms. No fabricated content.<br><br>
+  Powered by <strong>The CODE Podcast</strong> &mdash; India's #1 Construction Podcast &nbsp;|&nbsp; buildmatepodcast@gmail.com
+</div>
+
+<script>
+  function showPanel(id, btn) {
+    document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.getElementById('panel-' + id).classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+
+  function loadArchive() {
+    var loading = document.getElementById('archive-loading');
+    var list = document.getElementById('archive-list');
+    var error = document.getElementById('archive-error');
+
+    loading.style.display = 'block';
+    list.style.display = 'none';
+    error.style.display = 'none';
+
+    fetch('https://api.github.com/repos/buildmatepodcast/construction-news/contents/archive')
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function(files) {
+        loading.style.display = 'none';
+        if (!Array.isArray(files) || files.length === 0) {
+          error.style.display = 'block';
+          error.textContent = 'No archive editions found yet. The archive will grow with each edition published.';
+          return;
+        }
+        files.sort(function(a, b) { return b.name.localeCompare(a.name); });
+        list.innerHTML = '';
+        files.forEach(function(f) {
+          if (!f.name.endsWith('.html')) return;
+          var label = f.name
+            .replace('.html', '')
+            .replace(/-morning$/, ' · Morning Edition')
+            .replace(/-evening$/, ' · Evening Edition')
+            .replace(/-/g, ' ');
+          var size = f.size ? (f.size / 1024).toFixed(0) + ' KB' : '';
+          var li = document.createElement('li');
+          li.className = 'archive-item';
+          li.innerHTML = '<a href="' + (f.html_url || f.download_url) + '" target="_blank" rel="noopener">' + label + '</a>' +
+            (size ? '<span class="archive-size">' + size + '</span>' : '');
+          list.appendChild(li);
+        });
+        list.style.display = 'block';
+      })
+      .catch(function(err) {
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        error.textContent = 'Could not load archive from GitHub: ' + err.message + '. Check that the repository buildmatepodcast/construction-news exists and is public.';
+      });
+  }
+</script>
+
+</body>
+</html>
